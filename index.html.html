@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>میری دکان کا بل اور کھاتہ</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 15px; text-align: right; }
+        .invoice-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
+        input, button { width: 100%; padding: 10px; margin: 5px 0; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { background: #25D366; color: white; font-weight: bold; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="invoice-card">
+    <div class="header">
+        <!-- یہاں آپ کی دکان کا نام آئے گا -->
+        <h2 style="margin:0;">آپ کی دکان کا نام</h2>
+        <p style="margin:5px 0 0 0; font-size:12px; color:#666;">فون: 03001234567 | پتہ: مین بازار</p>
+    </div>
+
+    <h3>کسٹمر کسٹم بل میسج</h3>
+    <input type="text" id="custName" placeholder="کسٹمر کا نام">
+    <input type="text" id="custPhone" placeholder="واٹس ایپ نمبر (مثال: 923001234567)">
+    <input type="number" id="custAmount" placeholder="بقایا رقم (Rs)">
+    
+    <button onclick="sendWhatsApp()">واٹس ایپ پر بل بھیجیں (بغیر لوگو)</button>
+</div>
+
+<script>
+function sendWhatsApp() {
+    let name = document.getElementById('custName').value;
+    let phone = document.getElementById('custPhone').value;
+    let amount = document.getElementById('custAmount').value;
+
+    if(!phone || !amount) {
+        alert('براہ کرم نمبر اور رقم درج کریں!');
+        return;
+    }
+
+    // آپ کی مرضی کا کسٹم میسج بغیر کسی ڈگی کھاتہ کے واٹر مارک کے
+    let message = `محترم ${name}!%0A`
+                + `آپ کی طرف سے ہماری دکان کا بقایا بل Rs. ${amount} ہے۔%0A`
+                + `براہ کرم جلد از جلد ادا کریں۔%0A%0A`
+                + `شکریہ!%0A`
+                + `*آپ کی دکان کا نام*`;
+
+    let url = `https://wa.me/${phone}?text=${message}`;
+    window.open(url, '_blank');
+}
+</script>
+
+</body>
+</html>
