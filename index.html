@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کیپیٹل کھاتہ - ڈیجیٹل رجسٹر</title>
+    <title>کیپیٹل کھاتہ - پرو</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #eef2f5; margin: 0; padding: 10px; text-align: right; }
-        .container { max-width: 600px; margin: auto; }
+        body { background-color: #f4f6f9; margin: 0; padding: 10px; text-align: right; }
+        body.en { text-align: left; dir: ltr; }
+        .container { max-width: 650px; margin: auto; }
         .card { background: white; padding: 15px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-        h2, h3 { margin: 0 0 10px 0; color: #1a252f; text-align: center; }
-        p { margin: 3px 0; color: #555; font-size: 13px; text-align: center; }
-        input, select, button { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        h2, h3 { margin: 0 0 10px 0; color: #1a252f; }
+        p { margin: 3px 0; color: #555; font-size: 13px; }
+        label { font-weight: bold; font-size: 12px; display: block; margin-top: 8px; }
+        input, select, button { width: 100%; padding: 10px; margin: 4px 0 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
         button { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
         button.btn-sec { background-color: #2980b9; }
-        button.btn-danger { background-color: #c0392b; }
+        .lang-btn { width: auto; padding: 6px 12px; font-size: 12px; background: #34495e; }
         .tab-btn-group { display: flex; gap: 5px; margin-bottom: 10px; }
         .tab-btn-group button { flex: 1; padding: 8px 0; font-size: 12px; background: #7f8c8d; }
         .tab-btn-group button.active { background: #2c3e50; }
@@ -23,72 +26,105 @@
         th { background-color: #2c3e50; color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .wa-btn { background-color: #25D366; color: white; border: none; padding: 5px 8px; border-radius: 4px; text-decoration: none; font-size: 12px; display: inline-block; }
     </style>
 </head>
-<body>
+<body id="bodyTag">
 
 <div class="container">
 
-    <!-- دکان کی ہیڈر انفارمیشن -->
+    <!-- ہیڈر اور زبان تبدیل کرنے کا بٹن -->
     <div class="card" style="border-top: 4px solid #27ae60;">
-        <h2 id="dispShopName">Capital Sofa Zone</h2>
-        <p id="dispShopDetails">فون: 03000000000 | پتہ: مین بازار</p>
+        <div class="header-top">
+            <div>
+                <h2 id="dispShopName">Capital Sofa Zone</h2>
+                <p id="dispShopDetails">فون: 03000000000 | پتہ: مین بازار</p>
+            </div>
+            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
+        </div>
     </div>
 
     <!-- نیویگیشن ٹیبز -->
     <div class="tab-btn-group">
-        <button class="active" onclick="showTab('khataTab', this)">کیش بک</button>
-        <button onclick="showTab('stockTab', this)">سٹاک</button>
-        <button onclick="showTab('backupTab', this)">بیک اپ</button>
-        <button onclick="showTab('settingsTab', this)">سیٹنگز</button>
+        <button class="active" onclick="showTab('khataTab', this)" id="tabKhata">کیش بک / کھاتہ</button>
+        <button onclick="showTab('stockTab', this)" id="tabStock">سٹاک</button>
+        <button onclick="showTab('backupTab', this)" id="tabBackup">بیک اپ</button>
+        <button onclick="showTab('settingsTab', this)" id="tabSettings">سیٹنگز</button>
     </div>
 
     <!-- 1️⃣ کیش بک / سیل و پرچیز ٹیب -->
     <div id="khataTab" class="tab-content active">
         <div class="card">
-            <h3>نیا اینٹری درج کریں</h3>
-            <select id="txType">
-                <option value="سیل (فروخت)">سیل (فروخت)</option>
-                <option value="پرچیز (خریداری)">پرچیز (خریداری)</option>
+            <h3 id="lblAddEntry">نیا اینٹری درج کریں</h3>
+            
+            <label id="lblPartyType">پارٹی کی قسم (Party Type):</label>
+            <select id="partyType">
+                <option value="Customer">کسٹمر (Customer)</option>
+                <option value="Supplier">سپلائر (Supplier)</option>
             </select>
-            <input type="text" id="custName" placeholder="کسٹمر / سپلائر کا نام">
-            <input type="text" id="custPhone" placeholder="واٹس ایپ نمبر (مثال: 923001234567)">
-            <input type="text" id="itemName" placeholder="سامان / پروڈکٹ کا نام">
-            <input type="number" id="txAmount" placeholder="رقم (Rs)">
-            <button onclick="addTransaction()">اینٹری محفوظ کریں</button>
+
+            <label id="lblTxType">لین دین کی قسم (Transaction Type):</label>
+            <select id="txType">
+                <option value="Sale">سیل / فروخت (Sale)</option>
+                <option value="Purchase">پرچیز / خریداری (Purchase)</option>
+            </select>
+
+            <label id="lblName">نام (Name):</label>
+            <input type="text" id="partyName" placeholder="نام درج کریں">
+
+            <label id="lblPhone">موبائل نمبر (WhatsApp Number):</label>
+            <input type="text" id="partyPhone" placeholder="مثال: 923001234567">
+
+            <label id="lblAddress">ایڈریس (Address):</label>
+            <input type="text" id="partyAddress" placeholder="مکمل پتہ">
+
+            <label id="lblItem">پروڈکٹ / سامان (Item):</label>
+            <input type="text" id="itemName" placeholder="سامان کا نام">
+
+            <label id="lblAmount">کل رقم (Amount Rs):</label>
+            <input type="number" id="txAmount" placeholder="0">
+
+            <button onclick="addTransaction()" id="btnSaveTx">اینٹری محفوظ کریں</button>
         </div>
 
         <div class="card">
-            <h3>حالیہ کھاتہ ہسٹری</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>قسم</th>
-                        <th>نام</th>
-                        <th>رقم</th>
-                        <th>واٹس ایپ</th>
-                    </tr>
-                </thead>
-                <tbody id="txTable"></tbody>
-            </table>
+            <h3 id="lblHistory">حالیہ ریکارڈ ہسٹری</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="thType">قسم</th>
+                            <th id="thParty">پارٹی</th>
+                            <th id="thName">نام</th>
+                            <th id="thPhone">فون</th>
+                            <th id="thAddress">پتہ</th>
+                            <th id="thAmount">رقم</th>
+                            <th id="thWA">واٹس ایپ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="txTable"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- 2️⃣ سٹاک رجسٹر ٹیب -->
+    <!-- 2️⃣ سٹاک رجسٹر -->
     <div id="stockTab" class="tab-content">
         <div class="card">
-            <h3>نیا سٹاک شامل کریں</h3>
-            <input type="text" id="stkItem" placeholder="آئٹم کا نام">
-            <input type="number" id="stkQty" placeholder="تعداد (تھان / پیس)">
-            <button class="btn-sec" onclick="addStock()">سٹاک اپ ڈیٹ کریں</button>
+            <h3 id="lblAddStock">نیا سٹاک اینٹری</h3>
+            <label id="lblItemName">آئٹم کا نام:</label>
+            <input type="text" id="stkItem" placeholder="پروڈکٹ کا نام">
+            <label id="lblItemQty">تعداد (تھان / پیس):</label>
+            <input type="number" id="stkQty" placeholder="0">
+            <button class="btn-sec" onclick="addStock()" id="btnSaveStock">سٹاک اپ ڈیٹ کریں</button>
         </div>
         <div class="card">
-            <h3>موجودہ سٹاک</h3>
+            <h3 id="lblStockList">موجودہ سٹاک فہرست</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>آئٹم</th>
-                        <th>تعداد</th>
+                        <th id="thItem">آئٹم</th>
+                        <th id="thQty">تعداد</th>
                     </tr>
                 </thead>
                 <tbody id="stockTable"></tbody>
@@ -96,43 +132,107 @@
         </div>
     </div>
 
-    <!-- 3️⃣ بیک اپ اور ڈاٹا ریکوری ٹیب -->
+    <!-- 3️⃣ بیک اپ -->
     <div id="backupTab" class="tab-content">
         <div class="card">
-            <h3>ڈیٹا بیک اپ و ریکوری</h3>
-            <p>اپنے تمام کھاتوں کا ڈیٹا کمپیوٹر/موبائل میں محفوظ کریں:</p>
-            <button class="btn-sec" onclick="downloadBackup()">بیک اپ فائل ڈاؤن لوڈ کریں</button>
+            <h3 id="lblBackupTitle">ڈیٹا بیک اپ و ریکوری</h3>
+            <p id="lblBackupDesc">اپنے تمام کسٹمر اور سپلائر کا ڈیٹا فائل میں محفوظ کریں:</p>
+            <button class="btn-sec" onclick="downloadBackup()" id="btnDownloadBackup">بیک اپ فائل ڈاؤن لوڈ کریں</button>
             <hr>
-            <p>پرانا بیک اپ فائل اپ لوڈ کریں:</p>
+            <p id="lblRestoreDesc">پرانی بیک اپ فائل اپ لوڈ کریں:</p>
             <input type="file" id="restoreFile" accept=".json">
-            <button onclick="restoreBackup()">ڈیٹا بحال (Restore) کریں</button>
+            <button onclick="restoreBackup()" id="btnRestore">ڈیٹا بحال (Restore) کریں</button>
         </div>
     </div>
 
-    <!-- 4️⃣ دکان کی سیٹنگز ٹیب -->
+    <!-- 4️⃣ دکان سیٹنگز -->
     <div id="settingsTab" class="tab-content">
         <div class="card">
-            <h3>دکان سیٹنگز</h3>
-            <label>دکان کا نام:</label>
+            <h3 id="lblSettingsTitle">دکان سیٹنگز</h3>
+            <label id="lblSetShopName">دکان کا نام:</label>
             <input type="text" id="setShopName" placeholder="دکان کا نام درج کریں">
-            <label>رابطہ نمبر و پتہ:</label>
+            <label id="lblSetShopDetails">رابطہ نمبر و پتہ:</label>
             <input type="text" id="setShopDetails" placeholder="فون نمبر اور پتہ">
-            <button onclick="saveSettings()">سیٹنگز محفوظ کریں</button>
+            <button onclick="saveSettings()" id="btnSaveSettings">سیٹنگز محفوظ کریں</button>
         </div>
     </div>
 
 </div>
 
 <script>
-    // ڈیٹا ہولڈرز (خودکار LocalStorage)
-    let transactions = JSON.parse(localStorage.getItem('app_txs')) || [];
-    let stock = JSON.parse(localStorage.getItem('app_stock')) || [];
-    let settings = JSON.parse(localStorage.getItem('app_settings')) || {
+    let currentLang = 'ur';
+    let transactions = JSON.parse(localStorage.getItem('app_txs_v2')) || [];
+    let stock = JSON.parse(localStorage.getItem('app_stock_v2')) || [];
+    let settings = JSON.parse(localStorage.getItem('app_settings_v2')) || {
         name: 'Capital Sofa Zone',
         details: 'فون: 03000000000 | پتہ: مین بازار'
     };
 
-    // ٹیب تبدیل کرنے کا فنکشن
+    function toggleLanguage() {
+        if(currentLang === 'ur') {
+            currentLang = 'en';
+            document.getElementById('bodyTag').classList.add('en');
+            document.getElementById('bodyTag').dir = 'ltr';
+            document.getElementById('langBtn').innerText = 'اردو';
+            setLangEn();
+        } else {
+            currentLang = 'ur';
+            document.getElementById('bodyTag').classList.remove('en');
+            document.getElementById('bodyTag').dir = 'rtl';
+            document.getElementById('langBtn').innerText = 'English';
+            setLangUr();
+        }
+        renderTx();
+    }
+
+    function setLangEn() {
+        document.getElementById('tabKhata').innerText = 'Khata / Cashbook';
+        document.getElementById('tabStock').innerText = 'Stock';
+        document.getElementById('tabBackup').innerText = 'Backup';
+        document.getElementById('tabSettings').innerText = 'Settings';
+        document.getElementById('lblAddEntry').innerText = 'Add New Transaction';
+        document.getElementById('lblPartyType').innerText = 'Party Type:';
+        document.getElementById('lblTxType').innerText = 'Transaction Type:';
+        document.getElementById('lblName').innerText = 'Name:';
+        document.getElementById('lblPhone').innerText = 'WhatsApp Number:';
+        document.getElementById('lblAddress').innerText = 'Address:';
+        document.getElementById('lblItem').innerText = 'Product / Item:';
+        document.getElementById('lblAmount').innerText = 'Total Amount (Rs):';
+        document.getElementById('btnSaveTx').innerText = 'Save Transaction';
+        document.getElementById('lblHistory').innerText = 'Transaction History';
+        document.getElementById('thType').innerText = 'Type';
+        document.getElementById('thParty').innerText = 'Party';
+        document.getElementById('thName').innerText = 'Name';
+        document.getElementById('thPhone').innerText = 'Phone';
+        document.getElementById('thAddress').innerText = 'Address';
+        document.getElementById('thAmount').innerText = 'Amount';
+        document.getElementById('thWA').innerText = 'WhatsApp';
+    }
+
+    function setLangUr() {
+        document.getElementById('tabKhata').innerText = 'کیش بک / کھاتہ';
+        document.getElementById('tabStock').innerText = 'سٹاک';
+        document.getElementById('tabBackup').innerText = 'بیک اپ';
+        document.getElementById('tabSettings').innerText = 'سیٹنگز';
+        document.getElementById('lblAddEntry').innerText = 'نیا اینٹری درج کریں';
+        document.getElementById('lblPartyType').innerText = 'پارٹی کی قسم (Party Type):';
+        document.getElementById('lblTxType').innerText = 'لین دین کی قسم (Transaction Type):';
+        document.getElementById('lblName').innerText = 'نام (Name):';
+        document.getElementById('lblPhone').innerText = 'موبائل نمبر (WhatsApp Number):';
+        document.getElementById('lblAddress').innerText = 'ایڈریس (Address):';
+        document.getElementById('lblItem').innerText = 'پروڈکٹ / سامان (Item):';
+        document.getElementById('lblAmount').innerText = 'کل رقم (Amount Rs):';
+        document.getElementById('btnSaveTx').innerText = 'اینٹری محفوظ کریں';
+        document.getElementById('lblHistory').innerText = 'حالیہ ریکارڈ ہسٹری';
+        document.getElementById('thType').innerText = 'قسم';
+        document.getElementById('thParty').innerText = 'پارٹی';
+        document.getElementById('thName').innerText = 'نام';
+        document.getElementById('thPhone').innerText = 'فون';
+        document.getElementById('thAddress').innerText = 'پتہ';
+        document.getElementById('thAmount').innerText = 'رقم';
+        document.getElementById('thWA').innerText = 'واٹس ایپ';
+    }
+
     function showTab(tabId, btn) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-btn-group button').forEach(b => b.classList.remove('active'));
@@ -140,7 +240,6 @@
         btn.classList.add('active');
     }
 
-    // سیٹنگز لوڈ اور سیو
     function loadSettings() {
         document.getElementById('dispShopName').innerText = settings.name;
         document.getElementById('dispShopDetails').innerText = settings.details;
@@ -151,27 +250,32 @@
     function saveSettings() {
         settings.name = document.getElementById('setShopName').value;
         settings.details = document.getElementById('setShopDetails').value;
-        localStorage.setItem('app_settings', JSON.stringify(settings));
+        localStorage.setItem('app_settings_v2', JSON.stringify(settings));
         loadSettings();
-        alert('سیٹنگز کامیابی سے محفوظ ہو گئیں!');
+        alert(currentLang === 'ur' ? 'سیٹنگز محفوظ ہو گئیں!' : 'Settings Saved!');
     }
 
-    // اینٹری شامل کرنا
     function addTransaction() {
-        let type = document.getElementById('txType').value;
-        let name = document.getElementById('custName').value;
-        let phone = document.getElementById('custPhone').value;
+        let partyType = document.getElementById('partyType').value;
+        let txType = document.getElementById('txType').value;
+        let name = document.getElementById('partyName').value;
+        let phone = document.getElementById('partyPhone').value;
+        let address = document.getElementById('partyAddress').value;
         let item = document.getElementById('itemName').value;
         let amount = document.getElementById('txAmount').value;
 
-        if(!name || !amount) { alert('نام اور رقم ضروری ہیں!'); return; }
+        if(!name || !amount) { 
+            alert(currentLang === 'ur' ? 'نام اور رقم درج کرنا ضروری ہے!' : 'Name and Amount are required!'); 
+            return; 
+        }
 
-        transactions.push({ type, name, phone, item, amount });
-        localStorage.setItem('app_txs', JSON.stringify(transactions));
+        transactions.push({ partyType, txType, name, phone, address, item, amount });
+        localStorage.setItem('app_txs_v2', JSON.stringify(transactions));
         renderTx();
         
-        document.getElementById('custName').value = '';
-        document.getElementById('custPhone').value = '';
+        document.getElementById('partyName').value = '';
+        document.getElementById('partyPhone').value = '';
+        document.getElementById('partyAddress').value = '';
         document.getElementById('itemName').value = '';
         document.getElementById('txAmount').value = '';
     }
@@ -180,28 +284,33 @@
         let tbody = document.getElementById('txTable');
         tbody.innerHTML = '';
         transactions.forEach(tx => {
-            let msg = `محترم ${tx.name}!%0Aآپ کا ${tx.type} بل برائے ${tx.item} Rs. ${tx.amount} ہے۔%0Aشکریہ!%0A*${settings.name}*`;
+            let msg = currentLang === 'ur' 
+                ? `محترم ${tx.name}!%0Aآپ کا ${tx.txType} کا بل برائے ${tx.item} Rs. ${tx.amount} ہے۔%0Aپتہ: ${tx.address}%0Aشکریہ!%0A*${settings.name}*`
+                : `Dear ${tx.name},%0AYour ${tx.txType} bill for ${tx.item} is Rs. ${tx.amount}.%0AAddress: ${tx.address}%0AThank you!%0A*${settings.name}*`;
+            
             let waUrl = `https://wa.me/${tx.phone}?text=${msg}`;
             
             tbody.innerHTML += `
                 <tr>
-                    <td>${tx.type}</td>
+                    <td>${tx.txType}</td>
+                    <td>${tx.partyType}</td>
                     <td>${tx.name}</td>
+                    <td>${tx.phone}</td>
+                    <td>${tx.address}</td>
                     <td>Rs. ${tx.amount}</td>
-                    <td><a href="${waUrl}" target="_blank"><button style="padding:3px 6px; background:#25D366;">بھیجیں</button></a></td>
+                    <td><a href="${waUrl}" target="_blank" class="wa-btn">WhatsApp</a></td>
                 </tr>
             `;
         });
     }
 
-    // سٹاک شامل کرنا
     function addStock() {
         let item = document.getElementById('stkItem').value;
         let qty = document.getElementById('stkQty').value;
         if(!item || !qty) return;
 
         stock.push({ item, qty });
-        localStorage.setItem('app_stock', JSON.stringify(stock));
+        localStorage.setItem('app_stock_v2', JSON.stringify(stock));
         renderStock();
         document.getElementById('stkItem').value = '';
         document.getElementById('stkQty').value = '';
@@ -215,7 +324,6 @@
         });
     }
 
-    // بیک اپ ڈاؤن لوڈ
     function downloadBackup() {
         let data = { transactions, stock, settings };
         let blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -225,23 +333,21 @@
         a.click();
     }
 
-    // بیک اپ ری اسٹور
     function restoreBackup() {
         let fileInput = document.getElementById('restoreFile');
-        if(!fileInput.files[0]) { alert('فائل منتخب کریں!'); return; }
+        if(!fileInput.files[0]) return;
         
         let reader = new FileReader();
         reader.onload = function(e) {
             let data = JSON.parse(e.target.result);
-            if(data.transactions) localStorage.setItem('app_txs', JSON.stringify(data.transactions));
-            if(data.stock) localStorage.setItem('app_stock', JSON.stringify(data.stock));
-            if(data.settings) localStorage.setItem('app_settings', JSON.stringify(data.settings));
+            if(data.transactions) localStorage.setItem('app_txs_v2', JSON.stringify(data.transactions));
+            if(data.stock) localStorage.setItem('app_stock_v2', JSON.stringify(data.stock));
+            if(data.settings) localStorage.setItem('app_settings_v2', JSON.stringify(data.settings));
             location.reload();
         };
         reader.readAsText(fileInput.files[0]);
     }
 
-    // شروعاتی لوڈ
     loadSettings();
     renderTx();
     renderStock();
