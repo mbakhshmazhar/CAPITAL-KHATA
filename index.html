@@ -3,561 +3,497 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کیپیٹل کھاتہ - الٹرا پرو</title>
+    <title>Capital Khata - DigiKhata Style Pro</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f6f9; margin: 0; padding: 10px; text-align: right; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f4f6f9; padding: 12px; text-align: right; }
         body.en { text-align: left; dir: ltr; }
         .container { max-width: 650px; margin: auto; }
-        .card { background: white; padding: 15px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; }
-        h2, h3 { margin: 0 0 5px 0; color: #1a252f; }
-        p { margin: 3px 0; color: #555; font-size: 13px; }
-        label { font-weight: bold; font-size: 12px; display: block; margin-top: 8px; }
+
+        /* App Top Bar */
+        .app-header { background: #2c3e50; color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-align: center; }
+        .app-header h2 { font-size: 18px; margin-bottom: 4px; }
+        .app-header p { font-size: 12px; opacity: 0.8; }
+
+        /* Dashboard Grid UI */
+        .section-title { font-weight: bold; color: #7f8c8d; font-size: 13px; margin: 12px 4px 6px 4px; text-transform: uppercase; }
+        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .grid-card { background: white; padding: 15px 10px; border-radius: 12px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid #eef0f2; transition: 0.2s; }
+        .grid-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .grid-icon { font-size: 26px; display: block; margin-bottom: 6px; }
+        .grid-label { font-size: 13px; font-weight: bold; color: #2c3e50; }
+
+        /* Lang & Top Buttons */
+        .btn-top { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+
+        /* Modals & Tab Content */
+        .page-content { display: none; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }
+        .page-content.active { display: block; }
+        
+        /* Party Sub Navigation */
+        .sub-tab-group { display: flex; gap: 6px; border-bottom: 2px solid #eee; margin-bottom: 12px; padding-bottom: 6px; }
+        .sub-tab-btn { flex: 1; padding: 8px 0; background: none; border: none; font-weight: bold; font-size: 13px; color: #7f8c8d; cursor: pointer; text-align: center; }
+        .sub-tab-btn.active { color: #e67e22; border-bottom: 3px solid #e67e22; }
+
+        /* Summary Header Box */
+        .balance-summary { display: flex; background: #fff8f0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 10px; margin-bottom: 12px; text-align: center; }
+        .balance-box { flex: 1; }
+        .balance-box.give { border-left: 1px solid #ffd1a4; }
+        .balance-val { font-size: 16px; font-weight: bold; }
+        .val-give { color: #27ae60; }
+        .val-get { color: #e74c3c; }
+
+        /* Form Controls */
+        label { font-weight: bold; font-size: 12px; display: block; margin-top: 8px; color: #34495e; }
         input, select, button { width: 100%; padding: 10px; margin: 4px 0 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        button { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
-        button.btn-sec { background-color: #2980b9; }
-        button.btn-danger { background-color: #c0392b; }
-        .lang-btn { width: auto; padding: 6px 12px; font-size: 12px; background: #34495e; margin-left: 5px; }
-        .tab-btn-group { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
-        .tab-btn-group button { flex: 1; padding: 8px 0; font-size: 12px; background: #7f8c8d; min-width: 70px; }
-        .tab-btn-group button.active { background: #2c3e50; }
+        button.btn-main { background-color: #e67e22; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button.btn-sec { background-color: #2980b9; color: white; border: none; font-weight: bold; }
+        button.btn-danger { background-color: #c0392b; color: white; border: none; }
+
+        /* Tables */
         table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
-        th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
         th { background-color: #2c3e50; color: white; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .wa-btn { background-color: #25D366; color: white; border: none; padding: 5px 8px; border-radius: 4px; text-decoration: none; font-size: 12px; display: inline-block; }
-        #loginOverlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:999; }
-        .visiting-card { border: 2px dashed #27ae60; padding: 15px; border-radius: 8px; background: #fdfdfd; text-align: center; margin-top: 10px; }
+
+        /* Visiting Card Designs */
+        .card-preview { padding: 20px; border-radius: 12px; color: white; margin-top: 15px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .theme-emerald { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .theme-navy { background: linear-gradient(135deg, #141e30, #243b55); }
+        .theme-darkgold { background: linear-gradient(135deg, #232526, #414345); border-left: 5px solid #f1c40f; }
+
+        .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; display: inline-block; }
     </style>
 </head>
 <body id="bodyTag">
 
-<!-- Login Screen -->
-<div id="loginOverlay">
-    <div class="card" style="width: 320px; text-align: center;">
-        <h3 id="lblLoginTitle">دکان کھاتہ لاگ ان</h3>
-        <p id="lblLoginDesc">جاری رکھنے کے لیے پاس ورڈ درج کریں</p>
-        <input type="password" id="loginPass" placeholder="پاس ورڈ (Default: 1234)">
-        <button onclick="checkLogin()" id="btnLogin">لاگ ان کریں</button>
-    </div>
-</div>
-
 <div class="container">
 
-    <!-- Header & Language Selector -->
-    <div class="card" style="border-top: 4px solid #27ae60;">
-        <div class="header-top">
-            <div>
-                <h2 id="dispShopName">Capital Sofa Zone</h2>
-                <p id="dispShopPhone">فون: 03000000000</p>
-                <p id="dispShopAddress">پتہ: مین بازار</p>
+    <!-- Header -->
+    <div class="app-header">
+        <div>
+            <h2 id="dispShopName">Capital Sofa Zone</h2>
+            <p id="dispShopPhone">📞 03000000000</p>
+            <p id="dispShopAddr">📍 Main Bazaar</p>
+        </div>
+        <div>
+            <button class="btn-top" onclick="cycleLanguage()" id="langBtn">Urdu</button>
+            <button class="btn-top" style="background:#e74c3c;" onclick="showHome()">Home</button>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="dashboardView">
+        <div class="section-title">KHATA (کھاتہ)</div>
+        <div class="grid-container">
+            <div class="grid-card" onclick="openPage('partyPage')">
+                <span class="grid-icon">👤</span>
+                <span class="grid-label" id="lblGridParty">Party</span>
             </div>
-            <div>
-                <button class="lang-btn" onclick="cycleLanguage()" id="langBtn">زبان: اردو</button>
-                <button class="lang-btn" style="background:#c0392b;" onclick="logout()" id="btnLogout">لاگ آؤٹ</button>
+            <div class="grid-card" onclick="openPage('cashPage')">
+                <span class="grid-icon">👛</span>
+                <span class="grid-label" id="lblGridCash">Cash</span>
+            </div>
+            <div class="grid-card" onclick="openPage('stockPage')">
+                <span class="grid-icon">📦</span>
+                <span class="grid-label" id="lblGridStock">Stock</span>
+            </div>
+            <div class="grid-card" onclick="openPage('billsPage')">
+                <span class="grid-icon">📄</span>
+                <span class="grid-label" id="lblGridBills">Bills</span>
+            </div>
+        </div>
+
+        <div class="section-title">MORE (دیگر اپشنز)</div>
+        <div class="grid-container">
+            <div class="grid-card" onclick="openPage('settingsPage')">
+                <span class="grid-icon">📲</span>
+                <span class="grid-label" id="lblGridMulti">Multi Devices</span>
+            </div>
+            <div class="grid-card" onclick="openPage('vcardPage')">
+                <span class="grid-icon">🪪</span>
+                <span class="grid-label" id="lblGridCard">Business Card</span>
+            </div>
+            <div class="grid-card" onclick="openPage('recyclePage')">
+                <span class="grid-icon">🗑️</span>
+                <span class="grid-label" id="lblGridRecycle">Recycle Bin</span>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="tab-btn-group">
-        <button class="active" onclick="showTab('khataTab', this)" id="tabKhata">کھاتہ</button>
-        <button onclick="showTab('stockTab', this)" id="tabStock">سٹاک</button>
-        <button onclick="showTab('vcardTab', this)" id="tabVCard">وزٹنگ کارڈ</button>
-        <button onclick="showTab('backupTab', this)" id="tabBackup">بیک اپ</button>
-        <button onclick="showTab('settingsTab', this)" id="tabSettings">سیٹنگز</button>
-    </div>
-
-    <!-- 1️⃣ Khata / Cashbook Tab -->
-    <div id="khataTab" class="tab-content active">
-        <div class="card">
-            <h3 id="lblAddEntry">نیا اینٹری درج کریں</h3>
-            
-            <label id="lblPartyType">پارٹی کی قسم:</label>
-            <select id="partyType">
-                <option value="Customer" id="optCust">کسٹمر (Customer)</option>
-                <option value="Supplier" id="optSupp">سپلائر (Supplier)</option>
-            </select>
-
-            <label id="lblTxType">لین دین کی قسم:</label>
-            <select id="txType">
-                <option value="Sale" id="optSale">سیل / فروخت (Sale)</option>
-                <option value="Purchase" id="optPur">پرچیز / خریداری (Purchase)</option>
-            </select>
-
-            <label id="lblName">نام:</label>
-            <input type="text" id="partyName" placeholder="نام درج کریں">
-
-            <label id="lblPhone">موبائل نمبر (WhatsApp):</label>
-            <input type="text" id="partyPhone" placeholder="مثال: 03001234567">
-
-            <label id="lblAddress">پتہ / ایڈریس:</label>
-            <input type="text" id="partyAddress" placeholder="مکمل پتہ">
-
-            <div style="display:flex; gap:10px;">
-                <div style="flex:2;">
-                    <label id="lblItem">سامان کا نام:</label>
-                    <input type="text" id="itemName" placeholder="سامان کا نام">
-                </div>
-                <div style="flex:1;">
-                    <label id="lblUnit">اکائی (Unit):</label>
-                    <select id="itemUnit">
-                        <option value="Pcs">پیس (Pcs)</option>
-                        <option value="Bundle">بنڈل (Bundle)</option>
-                        <option value="Ghaz">گز (Ghaz)</option>
-                        <option value="Meter">میٹر (Meter)</option>
-                        <option value="Than">تھان (Than)</option>
-                    </select>
-                </div>
+    <!-- 1️⃣ PARTY PAGE -->
+    <div id="partyPage" class="page-content">
+        <h3 id="ttlParty">پارٹی مینجمنٹ</h3>
+        
+        <!-- Summary Card -->
+        <div class="balance-summary">
+            <div class="balance-box give">
+                <span style="font-size:11px; color:#555;">You Will Give (دینے ہیں)</span>
+                <div class="balance-val val-give" id="sumGive">Rs. 0</div>
             </div>
-
-            <label id="lblAmount">کل رقم (Amount Rs):</label>
-            <input type="number" id="txAmount" placeholder="0">
-
-            <button onclick="addTransaction()" id="btnSaveTx">اینٹری محفوظ کریں (Auto Sync)</button>
-        </div>
-
-        <div class="card">
-            <h3 id="lblHistory">حالیہ ریکارڈ ہسٹری</h3>
-            <div style="overflow-x:auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th id="thType">قسم</th>
-                            <th id="thParty">پارٹی</th>
-                            <th id="thName">نام</th>
-                            <th id="thPhone">فون</th>
-                            <th id="thAddress">پتہ</th>
-                            <th id="thItem">سامان</th>
-                            <th id="thAmount">رقم</th>
-                            <th id="thWA">واٹس ایپ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="txTable"></tbody>
-                </table>
+            <div class="balance-box">
+                <span style="font-size:11px; color:#555;">You Will Get (لینے ہیں)</span>
+                <div class="balance-val val-get" id="sumGet">Rs. 0</div>
             </div>
         </div>
-    </div>
 
-    <!-- 2️⃣ Stock Tab -->
-    <div id="stockTab" class="tab-content">
-        <div class="card">
-            <h3 id="lblStockEntry">نیا سٹاک اینٹری</h3>
-            <label id="lblStockItemName">آئٹم کا نام:</label>
-            <input type="text" id="stkItem" placeholder="پروڈکٹ کا نام">
-            <label id="lblStockQty">تعداد و اکائی:</label>
-            <div style="display:flex; gap:10px;">
-                <input type="number" id="stkQty" placeholder="تعداد" style="flex:2;">
-                <select id="stkUnit" style="flex:1;">
-                    <option value="Pcs">پیس</option>
-                    <option value="Bundle">بنڈل</option>
-                    <option value="Ghaz">گز</option>
-                    <option value="Meter">میٹر</option>
-                    <option value="Than">تھان</option>
+        <!-- Sub Tabs -->
+        <div class="sub-tab-group">
+            <div class="sub-tab-btn active" onclick="filterParty('Customer', this)">Customers</div>
+            <div class="sub-tab-btn" onclick="filterParty('Supplier', this)">Suppliers</div>
+            <div class="sub-tab-btn" onclick="filterParty('All', this)">All</div>
+        </div>
+
+        <!-- Add Transaction Form -->
+        <label>پارٹی نام:</label>
+        <input type="text" id="partyName" placeholder="نام درج کریں">
+        
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+                <label>قسم:</label>
+                <select id="partyType">
+                    <option value="Customer">Customer</option>
+                    <option value="Supplier">Supplier</option>
                 </select>
             </div>
-            <button class="btn-sec" onclick="addStock()" id="btnSaveStock">سٹاک اپ ڈیٹ کریں</button>
+            <div style="flex:1;">
+                <label>لین دین:</label>
+                <select id="txType">
+                    <option value="Sale">Sale (فروخت)</option>
+                    <option value="Purchase">Purchase (خریداری)</option>
+                </select>
+            </div>
         </div>
-        <div class="card">
-            <h3 id="lblStockList">موجودہ سٹاک فہرست</h3>
+
+        <div style="display:flex; gap:10px;">
+            <div style="flex:2;">
+                <label>سامان:</label>
+                <input type="text" id="itemName" placeholder="آئٹم">
+            </div>
+            <div style="flex:1;">
+                <label>اکائی:</label>
+                <select id="itemUnit">
+                    <option value="Pcs">Pcs</option>
+                    <option value="Bundle">Bundle</option>
+                    <option value="Ghaz">Ghaz</option>
+                    <option value="Meter">Meter</option>
+                    <option value="Than">Than</option>
+                </select>
+            </div>
+        </div>
+
+        <label>رقم (Rs):</label>
+        <input type="number" id="txAmount" placeholder="0">
+
+        <label>فون (WhatsApp):</label>
+        <input type="text" id="partyPhone" placeholder="03001234567">
+
+        <button class="btn-main" onclick="addTx()">اینٹری سیو کریں</button>
+
+        <!-- Records Table -->
+        <div style="overflow-x:auto; margin-top:15px;">
             <table>
                 <thead>
                     <tr>
-                        <th id="thStkItem">آئٹم</th>
-                        <th id="thStkQty">تعداد</th>
-                        <th id="thStkUnit">اکائی</th>
+                        <th>نام</th>
+                        <th>قسم</th>
+                        <th>آئٹم</th>
+                        <th>رقم</th>
+                        <th>WhatsApp</th>
+                        <th>ایکشن</th>
                     </tr>
                 </thead>
-                <tbody id="stockTable"></tbody>
+                <tbody id="partyTable"></tbody>
             </table>
         </div>
     </div>
 
-    <!-- 3️⃣ Visiting Card Tab -->
-    <div id="vcardTab" class="tab-content">
-        <div class="card">
-            <h3 id="lblVCardTitle">دکان کا وزٹنگ کارڈ</h3>
-            <div class="visiting-card">
-                <h2 id="vcShopName" style="color:#27ae60;">Capital Sofa Zone</h2>
-                <p id="vcTagline" style="font-weight:bold;">ہماری دکان پر تمام سامان دستیاب ہے</p>
-                <hr>
-                <p id="vcPhone">📞 فون: 03000000000</p>
-                <p id="vcAddress">📍 پتہ: مین بازار</p>
+    <!-- 2️⃣ CASH PAGE -->
+    <div id="cashPage" class="page-content">
+        <h3>کیش کھاتہ (Cash Book)</h3>
+        <p>کیش ان اور کیش آؤٹ کی تمام ہسٹری یہاں شو ہوگی۔</p>
+    </div>
+
+    <!-- 3️⃣ STOCK PAGE -->
+    <div id="stockPage" class="page-content">
+        <h3>سٹاک رجسٹر (Stock)</h3>
+        <label>آئٹم کا نام:</label>
+        <input type="text" id="stkName" placeholder="پروڈکٹ">
+        <label>تعداد:</label>
+        <input type="number" id="stkQty" placeholder="0">
+        <label>اکائی:</label>
+        <select id="stkUnit">
+            <option value="Pcs">Pcs</option>
+            <option value="Bundle">Bundle</option>
+            <option value="Ghaz">Ghaz</option>
+            <option value="Meter">Meter</option>
+        </select>
+        <button class="btn-sec" onclick="addStock()">سٹاک اپ ڈیٹ کریں</button>
+
+        <table style="margin-top:15px;">
+            <thead>
+                <tr>
+                    <th>آئٹم</th>
+                    <th>تعداد</th>
+                    <th>اکائی</th>
+                </tr>
+            </thead>
+            <tbody id="stockTable"></tbody>
+        </table>
+    </div>
+
+    <!-- 4️⃣ BILLS PAGE -->
+    <div id="billsPage" class="page-content">
+        <h3>بلز ہسٹری (Bills)</h3>
+        <p>تمام جنریٹ کردہ ڈیجیٹل بلز یہاں دیکھیں۔</p>
+    </div>
+
+    <!-- 5️⃣ BUSINESS CARD MAKER -->
+    <div id="vcardPage" class="page-content">
+        <h3>پروفیشنل بزنس کارڈ ڈیزائنر</h3>
+        <label>کارڈ تھیم کا انتخاب کریں:</label>
+        <select id="cardTheme" onchange="renderCard()">
+            <option value="theme-emerald">Elegant Emerald (سبز ڈگریڈینٹ)</option>
+            <option value="theme-navy">Modern Navy (نیوی بلیو)</option>
+            <option value="theme-darkgold">Luxury Dark (ڈارک گولڈ)</option>
+        </select>
+
+        <!-- Live Preview -->
+        <div id="vcardPreview" class="card-preview theme-emerald">
+            <div>
+                <h2 id="cardShop">Capital Sofa Zone</h2>
+                <p style="font-size:12px; opacity:0.9;">Wholesale Furniture & Tailoring</p>
             </div>
-            <button onclick="window.print()" style="margin-top:10px;" class="btn-sec" id="btnPrintCard">کارڈ پرنٹ کریں / PDF بنائیاں</button>
+            <div>
+                <p id="cardAddr" style="font-size:12px;">📍 Main Bazaar</p>
+                <p id="cardPhone" style="font-size:13px; font-weight:bold;">📞 03000000000</p>
+            </div>
         </div>
+
+        <button class="btn-sec" style="margin-top:15px;" onclick="window.print()">کارڈ پرنٹ کریں / PDF بنائیں</button>
     </div>
 
-    <!-- 4️⃣ Backup Tab -->
-    <div id="backupTab" class="tab-content">
-        <div class="card">
-            <h3 id="lblBackupTitle">ڈیٹا بیک اپ و ریکوری</h3>
-            <p id="lblDownloadBackupDesc">مینول بیک اپ فائل ڈاؤن لوڈ کریں:</p>
-            <button class="btn-sec" onclick="downloadBackup()" id="btnDownloadBackup">بیک اپ فائل ڈاؤن لوڈ کریں</button>
-            <hr>
-            <p id="lblRestoreDesc">پرانی بیک اپ فائل اپ لوڈ کریں:</p>
-            <input type="file" id="restoreFile" accept=".json">
-            <button onclick="restoreBackup()" id="btnRestore">ڈیٹا بحال (Restore) کریں</button>
-        </div>
+    <!-- 6️⃣ RECYCLE BIN -->
+    <div id="recyclePage" class="page-content">
+        <h3>🗑️ ری سائیکل بن (Recycle Bin)</h3>
+        <p style="font-size:12px; color:#666;">ڈیلیٹ کیے گئے اینٹریز یہاں موجود ہیں۔ آپ انہیں بحال کر سکتے ہیں۔</p>
+
+        <table style="margin-top:15px;">
+            <thead>
+                <tr>
+                    <th>نام</th>
+                    <th>آئٹم</th>
+                    <th>رقم</th>
+                    <th>ایکشن</th>
+                </tr>
+            </thead>
+            <tbody id="recycleTable"></tbody>
+        </table>
     </div>
 
-    <!-- 5️⃣ Settings Tab -->
-    <div id="settingsTab" class="tab-content">
-        <div class="card">
-            <h3 id="lblSettingsTitle">دکان سیٹنگز</h3>
-            <label id="lblSetShopName">دکان کا نام:</label>
-            <input type="text" id="setShopName">
-            <label id="lblSetShopPhone">رابطہ فون نمبر:</label>
-            <input type="text" id="setShopPhone">
-            <label id="lblSetShopAddr">دکان کا مکمل ایڈریس:</label>
-            <input type="text" id="setShopAddress">
-            <label id="lblSetPass">لاگ ان پاس ورڈ:</label>
-            <input type="text" id="setAppPass">
-            <label id="lblSetSheet">گوگل شیٹ ویب ایپ URL (Auto Backup):</label>
-            <input type="text" id="setSheetUrl" placeholder="https://script.google.com/macros/s/.../exec">
-            <button onclick="saveSettings()" id="btnSaveSettings">سیٹنگز محفوظ کریں</button>
-        </div>
+    <!-- 7️⃣ SETTINGS & MULTI DEVICE -->
+    <div id="settingsPage" class="page-content">
+        <h3>سیٹنگز و ملٹی ڈیوائس سنک</h3>
+        <label>دکان کا نام:</label>
+        <input type="text" id="setShopName">
+        <label>رابطہ نمبر:</label>
+        <input type="text" id="setShopPhone">
+        <label>ایڈریس:</label>
+        <input type="text" id="setShopAddr">
+        <label>گوگل شیٹ ویب ایپ URL (Auto Sync):</label>
+        <input type="text" id="setSheetUrl" placeholder="https://script.google.com/macros/s/.../exec">
+        <button class="btn-main" onclick="saveSettings()">سیٹنگز محفوظ کریں</button>
     </div>
 
 </div>
 
 <script>
-    // 'ur', 'roman', 'en'
-    let currentLang = 'ur'; 
-    let transactions = JSON.parse(localStorage.getItem('app_txs_v4')) || [];
-    let stock = JSON.parse(localStorage.getItem('app_stock_v4')) || [];
-    let settings = JSON.parse(localStorage.getItem('app_settings_v4')) || {
+    let currentLang = 'ur';
+    let currentFilter = 'Customer';
+    let txs = JSON.parse(localStorage.getItem('app_txs_v5')) || [];
+    let deletedTxs = JSON.parse(localStorage.getItem('app_recycle_v5')) || [];
+    let stock = JSON.parse(localStorage.getItem('app_stock_v5')) || [];
+    let settings = JSON.parse(localStorage.getItem('app_settings_v5')) || {
         name: 'Capital Sofa Zone',
         phone: '03000000000',
-        address: 'مین بازار',
-        pass: '1234',
+        address: 'Main Bazaar',
         sheetUrl: ''
     };
 
-    const dict = {
-        ur: {
-            langBtn: "زبان: اردو",
-            loginTitle: "دکان کھاتہ لاگ ان",
-            loginDesc: "جاری رکھنے کے لیے پاس ورڈ درج کریں",
-            loginBtn: "لاگ ان کریں",
-            logout: "لاگ آؤٹ",
-            tabKhata: "کھاتہ",
-            tabStock: "سٹاک",
-            tabVCard: "وزٹنگ کارڈ",
-            tabBackup: "بیک اپ",
-            tabSettings: "سیٹنگز",
-            addEntry: "نیا اینٹری درج کریں",
-            partyType: "پارٹی کی قسم:",
-            txType: "لین دین کی قسم:",
-            name: "نام:",
-            phone: "موبائل نمبر (WhatsApp):",
-            address: "پتہ / ایڈریس:",
-            item: "سامان کا نام:",
-            unit: "اکائی (Unit):",
-            amount: "کل رقم (Amount Rs):",
-            saveTx: "اینٹری محفوظ کریں (Auto Sync)",
-            history: "حالیہ ریکارڈ ہسٹری",
-            thType: "قسم", thParty: "پارٹی", thName: "نام", thPhone: "فون", thAddress: "پتہ", thItem: "سامان", thAmount: "رقم", thWA: "واٹس ایپ",
-            stockEntry: "نیا سٹاک اینٹری", stockItemName: "آئٹم کا نام:", stockQty: "تعداد و اکائی:", saveStock: "سٹاک اپ ڈیٹ کریں", stockList: "موجودہ سٹاک فہرست",
-            vcardTitle: "دکان کا وزٹنگ کارڈ", printCard: "کارڈ پرنٹ کریں / PDF بنائیاں",
-            backupTitle: "ڈیٹا بیک اپ و ریکوری", dlBackupDesc: "مینول بیک اپ فائل ڈاؤن لوڈ کریں:", dlBackupBtn: "بیک اپ فائل ڈاؤن لوڈ کریں", restoreDesc: "پرانی بیک اپ فائل اپ لوڈ کریں:", restoreBtn: "ڈیٹا بحال (Restore) کریں",
-            settingsTitle: "دکان سیٹنگز", setShopName: "دکان کا نام:", setShopPhone: "رابطہ فون نمبر:", setShopAddr: "دکان کا مکمل ایڈریس:", setPass: "لاگ ان پاس ورڈ:", setSheet: "گوگل شیٹ ویب ایپ URL (Auto Backup):", saveSettings: "سیٹنگز محفوظ کریں"
-        },
-        roman: {
-            langBtn: "Lang: Roman Urdu",
-            loginTitle: "Dukan Khata Login",
-            loginDesc: "Jari rakhne ke liye password darj karen",
-            loginBtn: "Login Karen",
-            logout: "Logout",
-            tabKhata: "Khata",
-            tabStock: "Stock",
-            tabVCard: "Visiting Card",
-            tabBackup: "Backup",
-            tabSettings: "Settings",
-            addEntry: "Nayi Entry Darj Karen",
-            partyType: "Party ki Qisam:",
-            txType: "Len Den ki Qisam:",
-            name: "Naam:",
-            phone: "Mobile Number (WhatsApp):",
-            address: "Pata / Address:",
-            item: "Saman ka Naam:",
-            unit: "Ekai (Unit):",
-            amount: "Kul Raqam (Amount Rs):",
-            saveTx: "Entry Save Karen (Auto Sync)",
-            history: "Halia Record History",
-            thType: "Qisam", thParty: "Party", thName: "Naam", thPhone: "Phone", thAddress: "Pata", thItem: "Saman", thAmount: "Raqam", thWA: "WhatsApp",
-            stockEntry: "Naya Stock Entry", stockItemName: "Item ka Naam:", stockQty: "Tadad aur Unit:", saveStock: "Stock Update Karen", stockList: "Maujooda Stock List",
-            vcardTitle: "Dukan ka Visiting Card", printCard: "Card Print Karen / PDF Banayen",
-            backupTitle: "Data Backup & Recovery", dlBackupDesc: "Manual Backup File Download Karen:", dlBackupBtn: "Backup File Download Karen", restoreDesc: "Purani Backup File Upload Karen:", restoreBtn: "Data Restore Karen",
-            settingsTitle: "Dukan Settings", setShopName: "Dukan ka Naam:", setShopPhone: "Rabta Phone Number:", setShopAddr: "Dukan ka Mukammal Address:", setPass: "Login Password:", setSheet: "Google Sheet Web App URL:", saveSettings: "Settings Save Karen"
-        },
-        en: {
-            langBtn: "Lang: English",
-            loginTitle: "Shop Ledger Login",
-            loginDesc: "Enter password to continue",
-            loginBtn: "Login",
-            logout: "Logout",
-            tabKhata: "Ledger",
-            tabStock: "Stock",
-            tabVCard: "Visiting Card",
-            tabBackup: "Backup",
-            tabSettings: "Settings",
-            addEntry: "Add New Entry",
-            partyType: "Party Type:",
-            txType: "Transaction Type:",
-            name: "Name:",
-            phone: "Mobile Number (WhatsApp):",
-            address: "Address:",
-            item: "Item Name:",
-            unit: "Unit:",
-            amount: "Total Amount (Rs):",
-            saveTx: "Save Entry (Auto Sync)",
-            history: "Recent Record History",
-            thType: "Type", thParty: "Party", thName: "Name", thPhone: "Phone", thAddress: "Address", thItem: "Item", thAmount: "Amount", thWA: "WhatsApp",
-            stockEntry: "New Stock Entry", stockItemName: "Item Name:", stockQty: "Quantity & Unit:", saveStock: "Update Stock", stockList: "Current Stock List",
-            vcardTitle: "Shop Visiting Card", printCard: "Print Card / Save PDF",
-            backupTitle: "Data Backup & Recovery", dlBackupDesc: "Download Manual Backup File:", dlBackupBtn: "Download Backup File", restoreDesc: "Upload Previous Backup File:", restoreBtn: "Restore Data",
-            settingsTitle: "Shop Settings", setShopName: "Shop Name:", setShopPhone: "Contact Phone Number:", setShopAddr: "Full Shop Address:", setPass: "Login Password:", setSheet: "Google Sheet Web App URL:", saveSettings: "Save Settings"
-        }
-    };
-
-    function cycleLanguage() {
-        if (currentLang === 'ur') currentLang = 'roman';
-        else if (currentLang === 'roman') currentLang = 'en';
-        else currentLang = 'ur';
-        applyLanguage();
+    function showHome() {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById('dashboardView').style.display = 'block';
     }
 
-    function applyLanguage() {
-        let t = dict[currentLang];
-        document.getElementById('langBtn').innerText = t.langBtn;
-        document.getElementById('lblLoginTitle').innerText = t.loginTitle;
-        document.getElementById('lblLoginDesc').innerText = t.loginDesc;
-        document.getElementById('btnLogin').innerText = t.loginBtn;
-        document.getElementById('btnLogout').innerText = t.logout;
+    function openPage(pageId) {
+        document.getElementById('dashboardView').style.display = 'none';
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        if(pageId === 'vcardPage') renderCard();
+    }
 
-        document.getElementById('tabKhata').innerText = t.tabKhata;
-        document.getElementById('tabStock').innerText = t.tabStock;
-        document.getElementById('tabVCard').innerText = t.tabVCard;
-        document.getElementById('tabBackup').innerText = t.tabBackup;
-        document.getElementById('tabSettings').innerText = t.tabSettings;
-
-        document.getElementById('lblAddEntry').innerText = t.addEntry;
-        document.getElementById('lblPartyType').innerText = t.partyType;
-        document.getElementById('lblTxType').innerText = t.txType;
-        document.getElementById('lblName').innerText = t.name;
-        document.getElementById('lblPhone').innerText = t.phone;
-        document.getElementById('lblAddress').innerText = t.address;
-        document.getElementById('lblItem').innerText = t.item;
-        document.getElementById('lblUnit').innerText = t.unit;
-        document.getElementById('lblAmount').innerText = t.amount;
-        document.getElementById('btnSaveTx').innerText = t.saveTx;
-        document.getElementById('lblHistory').innerText = t.history;
-
-        document.getElementById('thType').innerText = t.thType;
-        document.getElementById('thParty').innerText = t.thParty;
-        document.getElementById('thName').innerText = t.thName;
-        document.getElementById('thPhone').innerText = t.thPhone;
-        document.getElementById('thAddress').innerText = t.thAddress;
-        document.getElementById('thItem').innerText = t.thItem;
-        document.getElementById('thAmount').innerText = t.thAmount;
-        document.getElementById('thWA').innerText = t.thWA;
-
-        document.getElementById('lblStockEntry').innerText = t.stockEntry;
-        document.getElementById('lblStockItemName').innerText = t.stockItemName;
-        document.getElementById('lblStockQty').innerText = t.stockQty;
-        document.getElementById('btnSaveStock').innerText = t.saveStock;
-        document.getElementById('lblStockList').innerText = t.stockList;
-
-        document.getElementById('lblVCardTitle').innerText = t.vcardTitle;
-        document.getElementById('btnPrintCard').innerText = t.printCard;
-
-        document.getElementById('lblBackupTitle').innerText = t.backupTitle;
-        document.getElementById('lblDownloadBackupDesc').innerText = t.dlBackupDesc;
-        document.getElementById('btnDownloadBackup').innerText = t.dlBackupBtn;
-        document.getElementById('lblRestoreDesc').innerText = t.restoreDesc;
-        document.getElementById('btnRestore').innerText = t.restoreBtn;
-
-        document.getElementById('lblSettingsTitle').innerText = t.settingsTitle;
-        document.getElementById('lblSetShopName').innerText = t.setShopName;
-        document.getElementById('lblSetShopPhone').innerText = t.setShopPhone;
-        document.getElementById('lblSetShopAddr').innerText = t.setShopAddr;
-        document.getElementById('lblSetPass').innerText = t.setPass;
-        document.getElementById('lblSetSheet').innerText = t.setSheet;
-        document.getElementById('btnSaveSettings').innerText = t.saveSettings;
-
-        if (currentLang === 'en') {
-            document.getElementById('bodyTag').classList.add('en');
-            document.getElementById('bodyTag').dir = 'ltr';
-        } else {
-            document.getElementById('bodyTag').classList.remove('en');
-            document.getElementById('bodyTag').dir = 'rtl';
-        }
+    function filterParty(type, btn) {
+        currentFilter = type;
+        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         renderTx();
     }
 
-    function checkLogin() {
-        let p = document.getElementById('loginPass').value;
-        if(p === settings.pass) {
-            document.getElementById('loginOverlay').style.display = 'none';
-        } else {
-            alert(currentLang === 'ur' ? 'غلط پاس ورڈ!' : (currentLang === 'roman' ? 'Ghalat Password!' : 'Wrong Password!'));
-        }
-    }
-
-    function logout() {
-        document.getElementById('loginOverlay').style.display = 'flex';
-        document.getElementById('loginPass').value = '';
-    }
-
-    function showTab(tabId, btn) {
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-btn-group button').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        btn.classList.add('active');
-    }
-
-    function loadSettings() {
-        document.getElementById('dispShopName').innerText = settings.name;
-        document.getElementById('dispShopPhone').innerText = (currentLang === 'en' ? 'Phone: ' : 'فون: ') + settings.phone;
-        document.getElementById('dispShopAddress').innerText = (currentLang === 'en' ? 'Address: ' : 'پتہ: ') + settings.address;
-        
-        document.getElementById('vcShopName').innerText = settings.name;
-        document.getElementById('vcPhone').innerText = '📞 ' + settings.phone;
-        document.getElementById('vcAddress').innerText = '📍 ' + settings.address;
-
-        document.getElementById('setShopName').value = settings.name;
-        document.getElementById('setShopPhone').value = settings.phone;
-        document.getElementById('setShopAddress').value = settings.address;
-        document.getElementById('setAppPass').value = settings.pass;
-        document.getElementById('setSheetUrl').value = settings.sheetUrl || '';
-    }
-
-    function saveSettings() {
-        settings.name = document.getElementById('setShopName').value;
-        settings.phone = document.getElementById('setShopPhone').value;
-        settings.address = document.getElementById('setShopAddress').value;
-        settings.pass = document.getElementById('setAppPass').value;
-        settings.sheetUrl = document.getElementById('setSheetUrl').value;
-        localStorage.setItem('app_settings_v4', JSON.stringify(settings));
-        loadSettings();
-        alert(currentLang === 'ur' ? 'سیٹنگز محفوظ ہو گئیں!' : (currentLang === 'roman' ? 'Settings save ho gayi hain!' : 'Settings Saved!'));
-    }
-
-    function addTransaction() {
+    function addTx() {
+        let name = document.getElementById('partyName').value;
         let partyType = document.getElementById('partyType').value;
         let txType = document.getElementById('txType').value;
-        let name = document.getElementById('partyName').value;
-        let phone = document.getElementById('partyPhone').value;
-        let address = document.getElementById('partyAddress').value;
         let item = document.getElementById('itemName').value;
         let unit = document.getElementById('itemUnit').value;
         let amount = document.getElementById('txAmount').value;
+        let phone = document.getElementById('partyPhone').value;
 
-        if(!name || !amount) { 
-            alert(currentLang === 'ur' ? 'نام اور رقم ضروری ہے!' : (currentLang === 'roman' ? 'Naam aur raqam zaroori hai!' : 'Name and Amount required!')); 
-            return; 
-        }
+        if(!name || !amount) { alert('نام اور رقم درج کریں!'); return; }
 
-        let txData = { partyType, txType, name, phone, address, item, unit, amount };
-        transactions.push(txData);
-        localStorage.setItem('app_txs_v4', JSON.stringify(transactions));
-        renderTx();
+        let itemData = { id: Date.now(), name, partyType, txType, item, unit, amount, phone };
+        txs.push(itemData);
+        localStorage.setItem('app_txs_v5', JSON.stringify(txs));
 
-        // Google Sheet Auto Sync
+        // Auto Sync with Google Sheet
         if(settings.sheetUrl) {
             fetch(settings.sheetUrl, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(txData)
-            }).then(() => console.log('Synced with Google Sheet'));
+                body: JSON.stringify(itemData)
+            });
         }
 
         document.getElementById('partyName').value = '';
-        document.getElementById('partyPhone').value = '';
-        document.getElementById('partyAddress').value = '';
-        document.getElementById('itemName').value = '';
         document.getElementById('txAmount').value = '';
+        renderTx();
+    }
+
+    function deleteTx(id) {
+        let idx = txs.findIndex(t => t.id === id);
+        if(idx > -1) {
+            deletedTxs.push(txs[idx]);
+            txs.splice(idx, 1);
+            localStorage.setItem('app_txs_v5', JSON.stringify(txs));
+            localStorage.setItem('app_recycle_v5', JSON.stringify(deletedTxs));
+            renderTx();
+            renderRecycle();
+        }
+    }
+
+    function restoreTx(id) {
+        let idx = deletedTxs.findIndex(t => t.id === id);
+        if(idx > -1) {
+            txs.push(deletedTxs[idx]);
+            deletedTxs.splice(idx, 1);
+            localStorage.setItem('app_txs_v5', JSON.stringify(txs));
+            localStorage.setItem('app_recycle_v5', JSON.stringify(deletedTxs));
+            renderTx();
+            renderRecycle();
+        }
     }
 
     function renderTx() {
-        let tbody = document.getElementById('txTable');
+        let tbody = document.getElementById('partyTable');
         tbody.innerHTML = '';
-        transactions.forEach(tx => {
-            let msg = currentLang === 'ur' 
-                ? `محترم ${tx.name}!%0Aآپ کا ${tx.txType} کا بل برائے ${tx.item} (${tx.unit}) Rs. ${tx.amount} ہے۔%0Aشکریہ!%0A*${settings.name}*`
-                : (currentLang === 'roman'
-                    ? `Mohtaram ${tx.name}!%0AAap ka ${tx.txType} bill baraye ${tx.item} (${tx.unit}) Rs. ${tx.amount} hai.%0AShukriya!%0A*${settings.name}*`
-                    : `Dear ${tx.name},%0AYour ${tx.txType} bill for ${tx.item} (${tx.unit}) is Rs. ${tx.amount}.%0AThank you!%0A*${settings.name}*`);
-            
-            let waUrl = `https://wa.me/${tx.phone}?text=${msg}`;
-            
+        let giveSum = 0, getSum = 0;
+
+        txs.forEach(t => {
+            if(t.txType === 'Purchase') giveSum += Number(t.amount);
+            else getSum += Number(t.amount);
+
+            if(currentFilter === 'All' || t.partyType === currentFilter) {
+                let msg = `محترم ${t.name}!%0Aآپ کا ${t.item} کا بل Rs. ${t.amount} ہے۔%0Aشکریہ! *${settings.name}*`;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${t.name}</td>
+                        <td>${t.partyType}</td>
+                        <td>${t.item} (${t.unit})</td>
+                        <td>Rs. ${t.amount}</td>
+                        <td><a href="https://wa.me/${t.phone}?text=${msg}" target="_blank" class="wa-btn">WhatsApp</a></td>
+                        <td><button onclick="deleteTx(${t.id})" style="background:#e74c3c; color:white; border:none; padding:4px 6px; border-radius:4px;">🗑️</button></td>
+                    </tr>
+                `;
+            }
+        });
+
+        document.getElementById('sumGive').innerText = 'Rs. ' + giveSum;
+        document.getElementById('sumGet').innerText = 'Rs. ' + getSum;
+    }
+
+    function renderRecycle() {
+        let tbody = document.getElementById('recycleTable');
+        tbody.innerHTML = '';
+        deletedTxs.forEach(t => {
             tbody.innerHTML += `
                 <tr>
-                    <td>${tx.txType}</td>
-                    <td>${tx.partyType}</td>
-                    <td>${tx.name}</td>
-                    <td>${tx.phone}</td>
-                    <td>${tx.address}</td>
-                    <td>${tx.item} (${tx.unit})</td>
-                    <td>Rs. ${tx.amount}</td>
-                    <td><a href="${waUrl}" target="_blank" class="wa-btn">WhatsApp</a></td>
+                    <td>${t.name}</td>
+                    <td>${t.item}</td>
+                    <td>Rs. ${t.amount}</td>
+                    <td><button onclick="restoreTx(${t.id})" style="background:#27ae60; color:white; border:none; padding:4px 6px; border-radius:4px;">Restore</button></td>
                 </tr>
             `;
         });
     }
 
     function addStock() {
-        let item = document.getElementById('stkItem').value;
+        let name = document.getElementById('stkName').value;
         let qty = document.getElementById('stkQty').value;
         let unit = document.getElementById('stkUnit').value;
-        if(!item || !qty) return;
+        if(!name || !qty) return;
 
-        stock.push({ item, qty, unit });
-        localStorage.setItem('app_stock_v4', JSON.stringify(stock));
+        stock.push({ name, qty, unit });
+        localStorage.setItem('app_stock_v5', JSON.stringify(stock));
         renderStock();
-        document.getElementById('stkItem').value = '';
-        document.getElementById('stkQty').value = '';
     }
 
     function renderStock() {
         let tbody = document.getElementById('stockTable');
         tbody.innerHTML = '';
         stock.forEach(s => {
-            tbody.innerHTML += `<tr><td>${s.item}</td><td>${s.qty}</td><td>${s.unit}</td></tr>`;
+            tbody.innerHTML += `<tr><td>${s.name}</td><td>${s.qty}</td><td>${s.unit}</td></tr>`;
         });
     }
 
-    function downloadBackup() {
-        let data = { transactions, stock, settings };
-        let blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-        let a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `Khata_Backup_${new Date().toISOString().slice(0,10)}.json`;
-        a.click();
+    function renderCard() {
+        let theme = document.getElementById('cardTheme').value;
+        let preview = document.getElementById('vcardPreview');
+        preview.className = 'card-preview ' + theme;
+        document.getElementById('cardShop').innerText = settings.name;
+        document.getElementById('cardPhone').innerText = '📞 ' + settings.phone;
+        document.getElementById('cardAddr').innerText = '📍 ' + settings.address;
     }
 
-    function restoreBackup() {
-        let fileInput = document.getElementById('restoreFile');
-        if(!fileInput.files[0]) return;
-        
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            let data = JSON.parse(e.target.result);
-            if(data.transactions) localStorage.setItem('app_txs_v4', JSON.stringify(data.transactions));
-            if(data.stock) localStorage.setItem('app_stock_v4', JSON.stringify(data.stock));
-            if(data.settings) localStorage.setItem('app_settings_v4', JSON.stringify(data.settings));
-            location.reload();
-        };
-        reader.readAsText(fileInput.files[0]);
+    function saveSettings() {
+        settings.name = document.getElementById('setShopName').value;
+        settings.phone = document.getElementById('setShopPhone').value;
+        settings.address = document.getElementById('setShopAddr').value;
+        settings.sheetUrl = document.getElementById('setSheetUrl').value;
+        localStorage.setItem('app_settings_v5', JSON.stringify(settings));
+        loadSettings();
+        alert('سیٹنگز محفوظ ہو گئیں!');
+    }
+
+    function loadSettings() {
+        document.getElementById('dispShopName').innerText = settings.name;
+        document.getElementById('dispShopPhone').innerText = '📞 ' + settings.phone;
+        document.getElementById('dispShopAddr').innerText = '📍 ' + settings.address;
+
+        document.getElementById('setShopName').value = settings.name;
+        document.getElementById('setShopPhone').value = settings.phone;
+        document.getElementById('setShopAddr').value = settings.address;
+        document.getElementById('setSheetUrl').value = settings.sheetUrl || '';
+    }
+
+    function cycleLanguage() {
+        currentLang = currentLang === 'ur' ? 'en' : 'ur';
+        document.getElementById('langBtn').innerText = currentLang === 'ur' ? 'English' : 'اردو';
+        document.getElementById('bodyTag').dir = currentLang === 'ur' ? 'rtl' : 'ltr';
     }
 
     loadSettings();
-    applyLanguage();
+    renderTx();
     renderStock();
+    renderRecycle();
 </script>
 
 </body>
