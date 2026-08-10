@@ -34,19 +34,19 @@
 </head>
 <body id="bodyTag">
 
-<!-- لاگ ان اسکرین -->
+<!-- Login Screen -->
 <div id="loginOverlay">
     <div class="card" style="width: 320px; text-align: center;">
-        <h3>دکان کھاتہ لاگ ان</h3>
-        <p>جاری رکھنے کے لیے پاس ورڈ درج کریں</p>
-        <input type="password" id="loginPass" placeholder="پاس ورڈ (Def: 1234)">
-        <button onclick="checkLogin()">لاگ ان کریں</button>
+        <h3 id="lblLoginTitle">دکان کھاتہ لاگ ان</h3>
+        <p id="lblLoginDesc">جاری رکھنے کے لیے پاس ورڈ درج کریں</p>
+        <input type="password" id="loginPass" placeholder="پاس ورڈ (Default: 1234)">
+        <button onclick="checkLogin()" id="btnLogin">لاگ ان کریں</button>
     </div>
 </div>
 
 <div class="container">
 
-    <!-- ہیڈر اور لاگ آؤٹ -->
+    <!-- Header & Language Selector -->
     <div class="card" style="border-top: 4px solid #27ae60;">
         <div class="header-top">
             <div>
@@ -55,13 +55,13 @@
                 <p id="dispShopAddress">پتہ: مین بازار</p>
             </div>
             <div>
-                <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
-                <button class="lang-btn" style="background:#c0392b;" onclick="logout()">لاگ آؤٹ</button>
+                <button class="lang-btn" onclick="cycleLanguage()" id="langBtn">زبان: اردو</button>
+                <button class="lang-btn" style="background:#c0392b;" onclick="logout()" id="btnLogout">لاگ آؤٹ</button>
             </div>
         </div>
     </div>
 
-    <!-- نیویگیشن ٹیبز -->
+    <!-- Navigation Tabs -->
     <div class="tab-btn-group">
         <button class="active" onclick="showTab('khataTab', this)" id="tabKhata">کھاتہ</button>
         <button onclick="showTab('stockTab', this)" id="tabStock">سٹاک</button>
@@ -70,28 +70,28 @@
         <button onclick="showTab('settingsTab', this)" id="tabSettings">سیٹنگز</button>
     </div>
 
-    <!-- 1️⃣ کیش بک / سیل و پرچیز -->
+    <!-- 1️⃣ Khata / Cashbook Tab -->
     <div id="khataTab" class="tab-content active">
         <div class="card">
             <h3 id="lblAddEntry">نیا اینٹری درج کریں</h3>
             
             <label id="lblPartyType">پارٹی کی قسم:</label>
             <select id="partyType">
-                <option value="Customer">کسٹمر (Customer)</option>
-                <option value="Supplier">سپلائر (Supplier)</option>
+                <option value="Customer" id="optCust">کسٹمر (Customer)</option>
+                <option value="Supplier" id="optSupp">سپلائر (Supplier)</option>
             </select>
 
             <label id="lblTxType">لین دین کی قسم:</label>
             <select id="txType">
-                <option value="Sale">سیل / فروخت (Sale)</option>
-                <option value="Purchase">پرچیز / خریداری (Purchase)</option>
+                <option value="Sale" id="optSale">سیل / فروخت (Sale)</option>
+                <option value="Purchase" id="optPur">پرچیز / خریداری (Purchase)</option>
             </select>
 
             <label id="lblName">نام:</label>
             <input type="text" id="partyName" placeholder="نام درج کریں">
 
             <label id="lblPhone">موبائل نمبر (WhatsApp):</label>
-            <input type="text" id="partyPhone" placeholder="مثال: 923001234567">
+            <input type="text" id="partyPhone" placeholder="مثال: 03001234567">
 
             <label id="lblAddress">پتہ / ایڈریس:</label>
             <input type="text" id="partyAddress" placeholder="مکمل پتہ">
@@ -102,7 +102,7 @@
                     <input type="text" id="itemName" placeholder="سامان کا نام">
                 </div>
                 <div style="flex:1;">
-                    <label>اکائی (Unit):</label>
+                    <label id="lblUnit">اکائی (Unit):</label>
                     <select id="itemUnit">
                         <option value="Pcs">پیس (Pcs)</option>
                         <option value="Bundle">بنڈل (Bundle)</option>
@@ -125,14 +125,14 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>قسم</th>
-                            <th>پارٹی</th>
-                            <th>نام</th>
-                            <th>فون</th>
-                            <th>پتہ</th>
-                            <th>سامان</th>
-                            <th>رقم</th>
-                            <th>واٹس ایپ</th>
+                            <th id="thType">قسم</th>
+                            <th id="thParty">پارٹی</th>
+                            <th id="thName">نام</th>
+                            <th id="thPhone">فون</th>
+                            <th id="thAddress">پتہ</th>
+                            <th id="thItem">سامان</th>
+                            <th id="thAmount">رقم</th>
+                            <th id="thWA">واٹس ایپ</th>
                         </tr>
                     </thead>
                     <tbody id="txTable"></tbody>
@@ -141,13 +141,13 @@
         </div>
     </div>
 
-    <!-- 2️⃣ سٹاک رجسٹر -->
+    <!-- 2️⃣ Stock Tab -->
     <div id="stockTab" class="tab-content">
         <div class="card">
-            <h3>نیا سٹاک اینٹری</h3>
-            <label>آئٹم کا نام:</label>
+            <h3 id="lblStockEntry">نیا سٹاک اینٹری</h3>
+            <label id="lblStockItemName">آئٹم کا نام:</label>
             <input type="text" id="stkItem" placeholder="پروڈکٹ کا نام">
-            <label>تعداد و اکائی:</label>
+            <label id="lblStockQty">تعداد و اکائی:</label>
             <div style="display:flex; gap:10px;">
                 <input type="number" id="stkQty" placeholder="تعداد" style="flex:2;">
                 <select id="stkUnit" style="flex:1;">
@@ -158,16 +158,16 @@
                     <option value="Than">تھان</option>
                 </select>
             </div>
-            <button class="btn-sec" onclick="addStock()">سٹاک اپ ڈیٹ کریں</button>
+            <button class="btn-sec" onclick="addStock()" id="btnSaveStock">سٹاک اپ ڈیٹ کریں</button>
         </div>
         <div class="card">
-            <h3>موجودہ سٹاک فہرست</h3>
+            <h3 id="lblStockList">موجودہ سٹاک فہرست</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>آئٹم</th>
-                        <th>تعداد</th>
-                        <th>اکائی</th>
+                        <th id="thStkItem">آئٹم</th>
+                        <th id="thStkQty">تعداد</th>
+                        <th id="thStkUnit">اکائی</th>
                     </tr>
                 </thead>
                 <tbody id="stockTable"></tbody>
@@ -175,59 +175,60 @@
         </div>
     </div>
 
-    <!-- 3️⃣ وزٹنگ کارڈ -->
+    <!-- 3️⃣ Visiting Card Tab -->
     <div id="vcardTab" class="tab-content">
         <div class="card">
-            <h3>دکان کا وزٹنگ کارڈ</h3>
+            <h3 id="lblVCardTitle">دکان کا وزٹنگ کارڈ</h3>
             <div class="visiting-card">
                 <h2 id="vcShopName" style="color:#27ae60;">Capital Sofa Zone</h2>
-                <p id="vcTagline" style="font-weight:bold;">ہمارے ہاں تمام قسم کا سامان دستیاب ہے</p>
+                <p id="vcTagline" style="font-weight:bold;">ہماری دکان پر تمام سامان دستیاب ہے</p>
                 <hr>
                 <p id="vcPhone">📞 فون: 03000000000</p>
                 <p id="vcAddress">📍 پتہ: مین بازار</p>
             </div>
-            <button onclick="window.print()" style="margin-top:10px;" class="btn-sec">کارڈ پرنٹ کریں / PDF بنائیاں</button>
+            <button onclick="window.print()" style="margin-top:10px;" class="btn-sec" id="btnPrintCard">کارڈ پرنٹ کریں / PDF بنائیاں</button>
         </div>
     </div>
 
-    <!-- 4️⃣ بیک اپ -->
+    <!-- 4️⃣ Backup Tab -->
     <div id="backupTab" class="tab-content">
         <div class="card">
-            <h3>ڈیٹا بیک اپ و ریکوری</h3>
-            <p>مینول بیک اپ فائل ڈاؤن لوڈ کریں:</p>
-            <button class="btn-sec" onclick="downloadBackup()">بیک اپ فائل ڈاؤن لوڈ کریں</button>
+            <h3 id="lblBackupTitle">ڈیٹا بیک اپ و ریکوری</h3>
+            <p id="lblDownloadBackupDesc">مینول بیک اپ فائل ڈاؤن لوڈ کریں:</p>
+            <button class="btn-sec" onclick="downloadBackup()" id="btnDownloadBackup">بیک اپ فائل ڈاؤن لوڈ کریں</button>
             <hr>
-            <p>پرانی بیک اپ فائل اپ لوڈ کریں:</p>
+            <p id="lblRestoreDesc">پرانی بیک اپ فائل اپ لوڈ کریں:</p>
             <input type="file" id="restoreFile" accept=".json">
-            <button onclick="restoreBackup()">ڈیٹا بحال (Restore) کریں</button>
+            <button onclick="restoreBackup()" id="btnRestore">ڈیٹا بحال (Restore) کریں</button>
         </div>
     </div>
 
-    <!-- 5️⃣ دکان سیٹنگز -->
+    <!-- 5️⃣ Settings Tab -->
     <div id="settingsTab" class="tab-content">
         <div class="card">
-            <h3>دکان سیٹنگز</h3>
-            <label>دکان کا نام:</label>
+            <h3 id="lblSettingsTitle">دکان سیٹنگز</h3>
+            <label id="lblSetShopName">دکان کا نام:</label>
             <input type="text" id="setShopName">
-            <label>رابطہ فون نمبر:</label>
+            <label id="lblSetShopPhone">رابطہ فون نمبر:</label>
             <input type="text" id="setShopPhone">
-            <label>دکان کا مکمل ایڈریس (الگ لائن):</label>
+            <label id="lblSetShopAddr">دکان کا مکمل ایڈریس:</label>
             <input type="text" id="setShopAddress">
-            <label>لاگ ان پاس ورڈ:</label>
+            <label id="lblSetPass">لاگ ان پاس ورڈ:</label>
             <input type="text" id="setAppPass">
-            <label>گوگل شیٹ ویب ایپ URL (Auto Backup):</label>
+            <label id="lblSetSheet">گوگل شیٹ ویب ایپ URL (Auto Backup):</label>
             <input type="text" id="setSheetUrl" placeholder="https://script.google.com/macros/s/.../exec">
-            <button onclick="saveSettings()">سیٹنگز محفوظ کریں</button>
+            <button onclick="saveSettings()" id="btnSaveSettings">سیٹنگز محفوظ کریں</button>
         </div>
     </div>
 
 </div>
 
 <script>
-    let currentLang = 'ur';
-    let transactions = JSON.parse(localStorage.getItem('app_txs_v3')) || [];
-    let stock = JSON.parse(localStorage.getItem('app_stock_v3')) || [];
-    let settings = JSON.parse(localStorage.getItem('app_settings_v3')) || {
+    // 'ur', 'roman', 'en'
+    let currentLang = 'ur'; 
+    let transactions = JSON.parse(localStorage.getItem('app_txs_v4')) || [];
+    let stock = JSON.parse(localStorage.getItem('app_stock_v4')) || [];
+    let settings = JSON.parse(localStorage.getItem('app_settings_v4')) || {
         name: 'Capital Sofa Zone',
         phone: '03000000000',
         address: 'مین بازار',
@@ -235,12 +236,174 @@
         sheetUrl: ''
     };
 
+    const dict = {
+        ur: {
+            langBtn: "زبان: اردو",
+            loginTitle: "دکان کھاتہ لاگ ان",
+            loginDesc: "جاری رکھنے کے لیے پاس ورڈ درج کریں",
+            loginBtn: "لاگ ان کریں",
+            logout: "لاگ آؤٹ",
+            tabKhata: "کھاتہ",
+            tabStock: "سٹاک",
+            tabVCard: "وزٹنگ کارڈ",
+            tabBackup: "بیک اپ",
+            tabSettings: "سیٹنگز",
+            addEntry: "نیا اینٹری درج کریں",
+            partyType: "پارٹی کی قسم:",
+            txType: "لین دین کی قسم:",
+            name: "نام:",
+            phone: "موبائل نمبر (WhatsApp):",
+            address: "پتہ / ایڈریس:",
+            item: "سامان کا نام:",
+            unit: "اکائی (Unit):",
+            amount: "کل رقم (Amount Rs):",
+            saveTx: "اینٹری محفوظ کریں (Auto Sync)",
+            history: "حالیہ ریکارڈ ہسٹری",
+            thType: "قسم", thParty: "پارٹی", thName: "نام", thPhone: "فون", thAddress: "پتہ", thItem: "سامان", thAmount: "رقم", thWA: "واٹس ایپ",
+            stockEntry: "نیا سٹاک اینٹری", stockItemName: "آئٹم کا نام:", stockQty: "تعداد و اکائی:", saveStock: "سٹاک اپ ڈیٹ کریں", stockList: "موجودہ سٹاک فہرست",
+            vcardTitle: "دکان کا وزٹنگ کارڈ", printCard: "کارڈ پرنٹ کریں / PDF بنائیاں",
+            backupTitle: "ڈیٹا بیک اپ و ریکوری", dlBackupDesc: "مینول بیک اپ فائل ڈاؤن لوڈ کریں:", dlBackupBtn: "بیک اپ فائل ڈاؤن لوڈ کریں", restoreDesc: "پرانی بیک اپ فائل اپ لوڈ کریں:", restoreBtn: "ڈیٹا بحال (Restore) کریں",
+            settingsTitle: "دکان سیٹنگز", setShopName: "دکان کا نام:", setShopPhone: "رابطہ فون نمبر:", setShopAddr: "دکان کا مکمل ایڈریس:", setPass: "لاگ ان پاس ورڈ:", setSheet: "گوگل شیٹ ویب ایپ URL (Auto Backup):", saveSettings: "سیٹنگز محفوظ کریں"
+        },
+        roman: {
+            langBtn: "Lang: Roman Urdu",
+            loginTitle: "Dukan Khata Login",
+            loginDesc: "Jari rakhne ke liye password darj karen",
+            loginBtn: "Login Karen",
+            logout: "Logout",
+            tabKhata: "Khata",
+            tabStock: "Stock",
+            tabVCard: "Visiting Card",
+            tabBackup: "Backup",
+            tabSettings: "Settings",
+            addEntry: "Nayi Entry Darj Karen",
+            partyType: "Party ki Qisam:",
+            txType: "Len Den ki Qisam:",
+            name: "Naam:",
+            phone: "Mobile Number (WhatsApp):",
+            address: "Pata / Address:",
+            item: "Saman ka Naam:",
+            unit: "Ekai (Unit):",
+            amount: "Kul Raqam (Amount Rs):",
+            saveTx: "Entry Save Karen (Auto Sync)",
+            history: "Halia Record History",
+            thType: "Qisam", thParty: "Party", thName: "Naam", thPhone: "Phone", thAddress: "Pata", thItem: "Saman", thAmount: "Raqam", thWA: "WhatsApp",
+            stockEntry: "Naya Stock Entry", stockItemName: "Item ka Naam:", stockQty: "Tadad aur Unit:", saveStock: "Stock Update Karen", stockList: "Maujooda Stock List",
+            vcardTitle: "Dukan ka Visiting Card", printCard: "Card Print Karen / PDF Banayen",
+            backupTitle: "Data Backup & Recovery", dlBackupDesc: "Manual Backup File Download Karen:", dlBackupBtn: "Backup File Download Karen", restoreDesc: "Purani Backup File Upload Karen:", restoreBtn: "Data Restore Karen",
+            settingsTitle: "Dukan Settings", setShopName: "Dukan ka Naam:", setShopPhone: "Rabta Phone Number:", setShopAddr: "Dukan ka Mukammal Address:", setPass: "Login Password:", setSheet: "Google Sheet Web App URL:", saveSettings: "Settings Save Karen"
+        },
+        en: {
+            langBtn: "Lang: English",
+            loginTitle: "Shop Ledger Login",
+            loginDesc: "Enter password to continue",
+            loginBtn: "Login",
+            logout: "Logout",
+            tabKhata: "Ledger",
+            tabStock: "Stock",
+            tabVCard: "Visiting Card",
+            tabBackup: "Backup",
+            tabSettings: "Settings",
+            addEntry: "Add New Entry",
+            partyType: "Party Type:",
+            txType: "Transaction Type:",
+            name: "Name:",
+            phone: "Mobile Number (WhatsApp):",
+            address: "Address:",
+            item: "Item Name:",
+            unit: "Unit:",
+            amount: "Total Amount (Rs):",
+            saveTx: "Save Entry (Auto Sync)",
+            history: "Recent Record History",
+            thType: "Type", thParty: "Party", thName: "Name", thPhone: "Phone", thAddress: "Address", thItem: "Item", thAmount: "Amount", thWA: "WhatsApp",
+            stockEntry: "New Stock Entry", stockItemName: "Item Name:", stockQty: "Quantity & Unit:", saveStock: "Update Stock", stockList: "Current Stock List",
+            vcardTitle: "Shop Visiting Card", printCard: "Print Card / Save PDF",
+            backupTitle: "Data Backup & Recovery", dlBackupDesc: "Download Manual Backup File:", dlBackupBtn: "Download Backup File", restoreDesc: "Upload Previous Backup File:", restoreBtn: "Restore Data",
+            settingsTitle: "Shop Settings", setShopName: "Shop Name:", setShopPhone: "Contact Phone Number:", setShopAddr: "Full Shop Address:", setPass: "Login Password:", setSheet: "Google Sheet Web App URL:", saveSettings: "Save Settings"
+        }
+    };
+
+    function cycleLanguage() {
+        if (currentLang === 'ur') currentLang = 'roman';
+        else if (currentLang === 'roman') currentLang = 'en';
+        else currentLang = 'ur';
+        applyLanguage();
+    }
+
+    function applyLanguage() {
+        let t = dict[currentLang];
+        document.getElementById('langBtn').innerText = t.langBtn;
+        document.getElementById('lblLoginTitle').innerText = t.loginTitle;
+        document.getElementById('lblLoginDesc').innerText = t.loginDesc;
+        document.getElementById('btnLogin').innerText = t.loginBtn;
+        document.getElementById('btnLogout').innerText = t.logout;
+
+        document.getElementById('tabKhata').innerText = t.tabKhata;
+        document.getElementById('tabStock').innerText = t.tabStock;
+        document.getElementById('tabVCard').innerText = t.tabVCard;
+        document.getElementById('tabBackup').innerText = t.tabBackup;
+        document.getElementById('tabSettings').innerText = t.tabSettings;
+
+        document.getElementById('lblAddEntry').innerText = t.addEntry;
+        document.getElementById('lblPartyType').innerText = t.partyType;
+        document.getElementById('lblTxType').innerText = t.txType;
+        document.getElementById('lblName').innerText = t.name;
+        document.getElementById('lblPhone').innerText = t.phone;
+        document.getElementById('lblAddress').innerText = t.address;
+        document.getElementById('lblItem').innerText = t.item;
+        document.getElementById('lblUnit').innerText = t.unit;
+        document.getElementById('lblAmount').innerText = t.amount;
+        document.getElementById('btnSaveTx').innerText = t.saveTx;
+        document.getElementById('lblHistory').innerText = t.history;
+
+        document.getElementById('thType').innerText = t.thType;
+        document.getElementById('thParty').innerText = t.thParty;
+        document.getElementById('thName').innerText = t.thName;
+        document.getElementById('thPhone').innerText = t.thPhone;
+        document.getElementById('thAddress').innerText = t.thAddress;
+        document.getElementById('thItem').innerText = t.thItem;
+        document.getElementById('thAmount').innerText = t.thAmount;
+        document.getElementById('thWA').innerText = t.thWA;
+
+        document.getElementById('lblStockEntry').innerText = t.stockEntry;
+        document.getElementById('lblStockItemName').innerText = t.stockItemName;
+        document.getElementById('lblStockQty').innerText = t.stockQty;
+        document.getElementById('btnSaveStock').innerText = t.saveStock;
+        document.getElementById('lblStockList').innerText = t.stockList;
+
+        document.getElementById('lblVCardTitle').innerText = t.vcardTitle;
+        document.getElementById('btnPrintCard').innerText = t.printCard;
+
+        document.getElementById('lblBackupTitle').innerText = t.backupTitle;
+        document.getElementById('lblDownloadBackupDesc').innerText = t.dlBackupDesc;
+        document.getElementById('btnDownloadBackup').innerText = t.dlBackupBtn;
+        document.getElementById('lblRestoreDesc').innerText = t.restoreDesc;
+        document.getElementById('btnRestore').innerText = t.restoreBtn;
+
+        document.getElementById('lblSettingsTitle').innerText = t.settingsTitle;
+        document.getElementById('lblSetShopName').innerText = t.setShopName;
+        document.getElementById('lblSetShopPhone').innerText = t.setShopPhone;
+        document.getElementById('lblSetShopAddr').innerText = t.setShopAddr;
+        document.getElementById('lblSetPass').innerText = t.setPass;
+        document.getElementById('lblSetSheet').innerText = t.setSheet;
+        document.getElementById('btnSaveSettings').innerText = t.saveSettings;
+
+        if (currentLang === 'en') {
+            document.getElementById('bodyTag').classList.add('en');
+            document.getElementById('bodyTag').dir = 'ltr';
+        } else {
+            document.getElementById('bodyTag').classList.remove('en');
+            document.getElementById('bodyTag').dir = 'rtl';
+        }
+        renderTx();
+    }
+
     function checkLogin() {
         let p = document.getElementById('loginPass').value;
         if(p === settings.pass) {
             document.getElementById('loginOverlay').style.display = 'none';
         } else {
-            alert('غلط پاس ورڈ!');
+            alert(currentLang === 'ur' ? 'غلط پاس ورڈ!' : (currentLang === 'roman' ? 'Ghalat Password!' : 'Wrong Password!'));
         }
     }
 
@@ -258,12 +421,12 @@
 
     function loadSettings() {
         document.getElementById('dispShopName').innerText = settings.name;
-        document.getElementById('dispShopPhone').innerText = 'فون: ' + settings.phone;
-        document.getElementById('dispShopAddress').innerText = 'پتہ: ' + settings.address;
+        document.getElementById('dispShopPhone').innerText = (currentLang === 'en' ? 'Phone: ' : 'فون: ') + settings.phone;
+        document.getElementById('dispShopAddress').innerText = (currentLang === 'en' ? 'Address: ' : 'پتہ: ') + settings.address;
         
         document.getElementById('vcShopName').innerText = settings.name;
-        document.getElementById('vcPhone').innerText = '📞 فون: ' + settings.phone;
-        document.getElementById('vcAddress').innerText = '📍 پتہ: ' + settings.address;
+        document.getElementById('vcPhone').innerText = '📞 ' + settings.phone;
+        document.getElementById('vcAddress').innerText = '📍 ' + settings.address;
 
         document.getElementById('setShopName').value = settings.name;
         document.getElementById('setShopPhone').value = settings.phone;
@@ -278,9 +441,9 @@
         settings.address = document.getElementById('setShopAddress').value;
         settings.pass = document.getElementById('setAppPass').value;
         settings.sheetUrl = document.getElementById('setSheetUrl').value;
-        localStorage.setItem('app_settings_v3', JSON.stringify(settings));
+        localStorage.setItem('app_settings_v4', JSON.stringify(settings));
         loadSettings();
-        alert('سیٹنگز محفوظ ہو گئیں!');
+        alert(currentLang === 'ur' ? 'سیٹنگز محفوظ ہو گئیں!' : (currentLang === 'roman' ? 'Settings save ho gayi hain!' : 'Settings Saved!'));
     }
 
     function addTransaction() {
@@ -293,14 +456,17 @@
         let unit = document.getElementById('itemUnit').value;
         let amount = document.getElementById('txAmount').value;
 
-        if(!name || !amount) { alert('نام اور رقم ضروری ہے!'); return; }
+        if(!name || !amount) { 
+            alert(currentLang === 'ur' ? 'نام اور رقم ضروری ہے!' : (currentLang === 'roman' ? 'Naam aur raqam zaroori hai!' : 'Name and Amount required!')); 
+            return; 
+        }
 
         let txData = { partyType, txType, name, phone, address, item, unit, amount };
         transactions.push(txData);
-        localStorage.setItem('app_txs_v3', JSON.stringify(transactions));
+        localStorage.setItem('app_txs_v4', JSON.stringify(transactions));
         renderTx();
 
-        // گوگل شیٹ آٹو سنک
+        // Google Sheet Auto Sync
         if(settings.sheetUrl) {
             fetch(settings.sheetUrl, {
                 method: 'POST',
@@ -321,7 +487,12 @@
         let tbody = document.getElementById('txTable');
         tbody.innerHTML = '';
         transactions.forEach(tx => {
-            let msg = `محترم ${tx.name}!%0Aآپ کا ${tx.txType} کا بل برائے ${tx.item} (${tx.unit}) Rs. ${tx.amount} ہے۔%0Aشکریہ!%0A*${settings.name}*`;
+            let msg = currentLang === 'ur' 
+                ? `محترم ${tx.name}!%0Aآپ کا ${tx.txType} کا بل برائے ${tx.item} (${tx.unit}) Rs. ${tx.amount} ہے۔%0Aشکریہ!%0A*${settings.name}*`
+                : (currentLang === 'roman'
+                    ? `Mohtaram ${tx.name}!%0AAap ka ${tx.txType} bill baraye ${tx.item} (${tx.unit}) Rs. ${tx.amount} hai.%0AShukriya!%0A*${settings.name}*`
+                    : `Dear ${tx.name},%0AYour ${tx.txType} bill for ${tx.item} (${tx.unit}) is Rs. ${tx.amount}.%0AThank you!%0A*${settings.name}*`);
+            
             let waUrl = `https://wa.me/${tx.phone}?text=${msg}`;
             
             tbody.innerHTML += `
@@ -346,7 +517,7 @@
         if(!item || !qty) return;
 
         stock.push({ item, qty, unit });
-        localStorage.setItem('app_stock_v3', JSON.stringify(stock));
+        localStorage.setItem('app_stock_v4', JSON.stringify(stock));
         renderStock();
         document.getElementById('stkItem').value = '';
         document.getElementById('stkQty').value = '';
@@ -376,30 +547,16 @@
         let reader = new FileReader();
         reader.onload = function(e) {
             let data = JSON.parse(e.target.result);
-            if(data.transactions) localStorage.setItem('app_txs_v3', JSON.stringify(data.transactions));
-            if(data.stock) localStorage.setItem('app_stock_v3', JSON.stringify(data.stock));
-            if(data.settings) localStorage.setItem('app_settings_v3', JSON.stringify(data.settings));
+            if(data.transactions) localStorage.setItem('app_txs_v4', JSON.stringify(data.transactions));
+            if(data.stock) localStorage.setItem('app_stock_v4', JSON.stringify(data.stock));
+            if(data.settings) localStorage.setItem('app_settings_v4', JSON.stringify(data.settings));
             location.reload();
         };
         reader.readAsText(fileInput.files[0]);
     }
 
-    function toggleLanguage() {
-        if(currentLang === 'ur') {
-            currentLang = 'en';
-            document.getElementById('bodyTag').classList.add('en');
-            document.getElementById('bodyTag').dir = 'ltr';
-            document.getElementById('langBtn').innerText = 'اردو';
-        } else {
-            currentLang = 'ur';
-            document.getElementById('bodyTag').classList.remove('en');
-            document.getElementById('bodyTag').dir = 'rtl';
-            document.getElementById('langBtn').innerText = 'English';
-        }
-    }
-
     loadSettings();
-    renderTx();
+    applyLanguage();
     renderStock();
 </script>
 
