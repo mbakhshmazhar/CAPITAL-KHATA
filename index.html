@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capital Khata Pro</title>
     
-    <link rel="manifest" href="manifest.json?v=4">
+    <link rel="manifest" href="manifest.json?v=5">
     <meta name="theme-color" content="#d32f2f">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/552/552788.png">
 
@@ -43,7 +43,7 @@
 
         .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 
-        /* MULTIPLE CARD DESIGNS / THEMES */
+        /* VISITING CARD STYLING */
         .card-preview-box {
             border-radius: 12px;
             padding: 16px;
@@ -59,25 +59,20 @@
             text-align: left;
         }
 
-        /* 1. Gold Premium Theme */
         .theme-gold { background: linear-gradient(135deg, #0f0c20 0%, #24243e 100%); color: #fff; border: 2px solid #d4af37; }
         .theme-gold h2 { color: #d4af37; font-family: 'Georgia', serif; }
         .theme-gold .card-logo-placeholder { border-color: #d4af37; color: #d4af37; }
 
-        /* 2. Modern Blue Curve Theme */
         .theme-blue { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #ffffff; border-left: 8px solid #00d2ff; }
         .theme-blue h2 { color: #00d2ff; }
 
-        /* 3. Minimal White Corporate Theme */
         .theme-white { background: #ffffff; color: #2c3e50; border: 1px solid #e2e8f0; border-top: 6px solid #27ae60; }
         .theme-white h2 { color: #16a085; }
         .theme-white .card-logo-placeholder { border-color: #27ae60; color: #27ae60; }
 
-        /* 4. Elegant Dark Matte Theme */
         .theme-dark { background: #121212; color: #e0e0e0; border-bottom: 5px solid #e74c3c; }
         .theme-dark h2 { color: #ff7675; }
 
-        /* 5. Luxury Red Theme */
         .theme-red { background: linear-gradient(135deg, #8e0e00 0%, #1f1c1c 100%); color: #fff; border-right: 6px solid #f39c12; }
         .theme-red h2 { color: #f1c40f; }
 
@@ -286,17 +281,17 @@
                     <p>✉️ <span id="cardEmail">mbakhshmazhar@gmail.com</span></p>
                 </div>
                 <div style="text-align: right; max-width: 50%;">
-                    <p>📍 <span id="cardAddress">Main Kuri Road Shaheen Chowk Rawalpindi</span></p>
+                    <p>📍 <span id="cardAddress">Main Kuri Road Rawalpindi</span></p>
                 </div>
             </div>
         </div>
 
         <div class="theme-selector">
-            <span class="dot active" style="background:#d4af37;" title="Gold Theme" onclick="changeTheme('theme-gold', this)"></span>
-            <span class="dot" style="background:#1e3c72;" title="Blue Theme" onclick="changeTheme('theme-blue', this)"></span>
-            <span class="dot" style="background:#ffffff; border-color:#27ae60;" title="White Minimal" onclick="changeTheme('theme-white', this)"></span>
-            <span class="dot" style="background:#121212; border-color:#e74c3c;" title="Matte Dark" onclick="changeTheme('theme-dark', this)"></span>
-            <span class="dot" style="background:#8e0e00;" title="Luxury Red" onclick="changeTheme('theme-red', this)"></span>
+            <span class="dot active" style="background:#d4af37;" title="Gold Theme" onclick="changeTheme('theme-gold', 'gold', this)"></span>
+            <span class="dot" style="background:#1e3c72;" title="Blue Theme" onclick="changeTheme('theme-blue', 'blue', this)"></span>
+            <span class="dot" style="background:#ffffff; border-color:#27ae60;" title="White Minimal" onclick="changeTheme('theme-white', 'white', this)"></span>
+            <span class="dot" style="background:#121212; border-color:#e74c3c;" title="Matte Dark" onclick="changeTheme('theme-dark', 'dark', this)"></span>
+            <span class="dot" style="background:#8e0e00;" title="Luxury Red" onclick="changeTheme('theme-red', 'red', this)"></span>
         </div>
 
         <div class="profile-upload-wrapper">
@@ -330,7 +325,7 @@
                 <span class="field-icon">💼</span>
             </div>
             <div class="input-icon-group">
-                <input type="text" id="inAddr" value="Main Kuri Road Shaheen Chowk Rawalpindi" oninput="updateCard()">
+                <input type="text" id="inAddr" value="Main Kuri Road Rawalpindi" oninput="updateCard()">
                 <span class="field-icon">📍</span>
             </div>
             <div class="input-icon-group">
@@ -343,7 +338,7 @@
 
         <p style="font-size: 12px; font-weight: bold; margin-top: 10px; text-align: center;">Share your business card</p>
         <div style="display: flex; gap: 10px; margin-top: 8px;">
-            <button class="btn-card-action btn-dl" onclick="window.print()">📥 DOWNLOAD</button>
+            <button class="btn-card-action btn-dl" onclick="downloadCardImage()">📥 DOWNLOAD</button>
             <button class="btn-card-action btn-wa" onclick="shareCardWA()">💬 SHARE</button>
         </div>
     </div>
@@ -360,6 +355,8 @@
 
 <script>
     let currentLang = 'ur';
+    let currentSelectedTheme = 'gold';
+    let uploadedLogoImg = null;
     let partyTxs = JSON.parse(localStorage.getItem('ck_party_v9')) || [];
     let stock = JSON.parse(localStorage.getItem('ck_stock_v9')) || [];
     let billItems = [];
@@ -572,8 +569,9 @@
         }
     }
 
-    function changeTheme(themeClass, el) {
+    function changeTheme(themeClass, themeKey, el) {
         document.getElementById('cardPreviewContainer').className = 'card-preview-box ' + themeClass;
+        currentSelectedTheme = themeKey;
         document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
         el.classList.add('active');
     }
@@ -587,6 +585,9 @@
                 document.getElementById('logoPreview').style.display = 'block';
                 document.getElementById('uploadIcon').style.display = 'none';
                 document.getElementById('cardLogoDisplay').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                
+                uploadedLogoImg = new Image();
+                uploadedLogoImg.src = e.target.result;
             }
             reader.readAsDataURL(file);
         }
@@ -595,6 +596,109 @@
     function shareCardWA() {
         let msg = `*${document.getElementById('inBiz').value}*\n👤 ${document.getElementById('inOwner').value}\n📞 ${document.getElementById('inPhone').value}\n📍 ${document.getElementById('inAddr').value}`;
         window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    /* DIRECT CANVAS IMAGE DOWNLOAD FUNCTIONALITY */
+    function downloadCardImage() {
+        let canvas = document.createElement('canvas');
+        canvas.width = 1050;
+        canvas.height = 600;
+        let ctx = canvas.getContext('2d');
+
+        // Background
+        if (currentSelectedTheme === 'gold') {
+            let grad = ctx.createLinearGradient(0, 0, 1050, 600);
+            grad.addColorStop(0, '#0f0c20');
+            grad.addColorStop(1, '#24243e');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1050, 600);
+            ctx.strokeStyle = '#d4af37';
+            ctx.lineWidth = 10;
+            ctx.strokeRect(5, 5, 1040, 590);
+        } else if (currentSelectedTheme === 'blue') {
+            let grad = ctx.createLinearGradient(0, 0, 1050, 600);
+            grad.addColorStop(0, '#1e3c72');
+            grad.addColorStop(1, '#2a5298');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1050, 600);
+            ctx.fillStyle = '#00d2ff';
+            ctx.fillRect(0, 0, 30, 600);
+        } else if (currentSelectedTheme === 'white') {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 1050, 600);
+            ctx.fillStyle = '#27ae60';
+            ctx.fillRect(0, 0, 1050, 20);
+        } else if (currentSelectedTheme === 'dark') {
+            ctx.fillStyle = '#121212';
+            ctx.fillRect(0, 0, 1050, 600);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(0, 580, 1050, 20);
+        } else if (currentSelectedTheme === 'red') {
+            let grad = ctx.createLinearGradient(0, 0, 1050, 600);
+            grad.addColorStop(0, '#8e0e00');
+            grad.addColorStop(1, '#1f1c1c');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1050, 600);
+            ctx.fillStyle = '#f39c12';
+            ctx.fillRect(1020, 0, 30, 600);
+        }
+
+        // Texts Colors
+        let titleColor = '#d4af37';
+        let mainTextColor = '#ffffff';
+        if (currentSelectedTheme === 'blue') titleColor = '#00d2ff';
+        if (currentSelectedTheme === 'white') { titleColor = '#16a085'; mainTextColor = '#2c3e50'; }
+        if (currentSelectedTheme === 'dark') { titleColor = '#ff7675'; mainTextColor = '#e0e0e0'; }
+        if (currentSelectedTheme === 'red') { titleColor = '#f1c40f'; mainTextColor = '#ffffff'; }
+
+        // Business Title & Tagline
+        ctx.fillStyle = titleColor;
+        ctx.font = 'bold 42px sans-serif';
+        ctx.fillText(document.getElementById('inBiz').value, 60, 100);
+
+        ctx.fillStyle = mainTextColor;
+        ctx.font = '22px sans-serif';
+        ctx.fillText(document.getElementById('inCat').value + ' ' + document.getElementById('inType').value, 60, 140);
+
+        // Owner Name
+        ctx.fillStyle = mainTextColor;
+        ctx.font = 'bold 34px sans-serif';
+        ctx.fillText(document.getElementById('inOwner').value, 60, 280);
+
+        // Divider Line
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        if(currentSelectedTheme === 'white') ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(60, 420);
+        ctx.lineTo(990, 420);
+        ctx.stroke();
+
+        // Contact Info
+        ctx.fillStyle = mainTextColor;
+        ctx.font = '24px sans-serif';
+        ctx.fillText('📞 ' + document.getElementById('inPhone').value, 60, 480);
+        ctx.fillText('✉️ ' + document.getElementById('inEmail').value, 60, 530);
+
+        // Address
+        ctx.fillText('📍 ' + document.getElementById('inAddr').value, 500, 480);
+
+        // Draw Logo if uploaded
+        if (uploadedLogoImg) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(920, 110, 60, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.clip();
+            ctx.drawImage(uploadedLogoImg, 860, 50, 120, 120);
+            ctx.restore();
+        }
+
+        // Trigger Download
+        let link = document.createElement('a');
+        link.download = 'business-card.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
     }
 
     renderParty();
