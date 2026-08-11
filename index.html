@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capital Khata - DigiKhata Style Pro</title>
+    <title>Capital Khata - Profit & Loss Pro</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f4f6f9; padding: 12px; text-align: right; }
@@ -11,9 +11,9 @@
         .container { max-width: 650px; margin: auto; }
 
         /* App Top Bar */
-        .app-header { background: #2c3e50; color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-align: center; }
+        .app-header { background: #d32f2f; color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         .app-header h2 { font-size: 18px; margin-bottom: 4px; }
-        .app-header p { font-size: 12px; opacity: 0.8; }
+        .app-header p { font-size: 12px; opacity: 0.9; }
 
         /* Dashboard Grid UI */
         .section-title { font-weight: bold; color: #7f8c8d; font-size: 13px; margin: 12px 4px 6px 4px; text-transform: uppercase; }
@@ -23,182 +23,189 @@
         .grid-icon { font-size: 26px; display: block; margin-bottom: 6px; }
         .grid-label { font-size: 13px; font-weight: bold; color: #2c3e50; }
 
-        /* Lang & Top Buttons */
-        .btn-top { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .btn-top { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-left: 4px; }
 
         /* Modals & Tab Content */
         .page-content { display: none; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }
         .page-content.active { display: block; }
         
-        /* Party Sub Navigation */
         .sub-tab-group { display: flex; gap: 6px; border-bottom: 2px solid #eee; margin-bottom: 12px; padding-bottom: 6px; }
         .sub-tab-btn { flex: 1; padding: 8px 0; background: none; border: none; font-weight: bold; font-size: 13px; color: #7f8c8d; cursor: pointer; text-align: center; }
-        .sub-tab-btn.active { color: #e67e22; border-bottom: 3px solid #e67e22; }
+        .sub-tab-btn.active { color: #d32f2f; border-bottom: 3px solid #d32f2f; }
 
-        /* Summary Header Box */
-        .balance-summary { display: flex; background: #fff8f0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 10px; margin-bottom: 12px; text-align: center; }
-        .balance-box { flex: 1; }
-        .balance-box.give { border-left: 1px solid #ffd1a4; }
-        .balance-val { font-size: 16px; font-weight: bold; }
-        .val-give { color: #27ae60; }
-        .val-get { color: #e74c3c; }
+        /* Profit & Loss Boxes */
+        .pnl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
+        .pnl-box { padding: 12px; border-radius: 8px; text-align: center; background: #f8f9fa; border: 1px solid #e9ecef; }
+        .pnl-title { font-size: 11px; color: #6c757d; margin-bottom: 4px; }
+        .pnl-value { font-size: 16px; font-weight: bold; }
 
         /* Form Controls */
         label { font-weight: bold; font-size: 12px; display: block; margin-top: 8px; color: #34495e; }
         input, select, button { width: 100%; padding: 10px; margin: 4px 0 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        button.btn-main { background-color: #e67e22; color: white; border: none; font-weight: bold; cursor: pointer; }
-        button.btn-sec { background-color: #2980b9; color: white; border: none; font-weight: bold; }
-        button.btn-danger { background-color: #c0392b; color: white; border: none; }
+        button.btn-main { background-color: #d32f2f; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button.btn-sec { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
 
         /* Tables */
         table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
         th { background-color: #2c3e50; color: white; }
 
-        /* Visiting Card Designs */
-        .card-preview { padding: 20px; border-radius: 12px; color: white; margin-top: 15px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        .theme-emerald { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .theme-navy { background: linear-gradient(135deg, #141e30, #243b55); }
-        .theme-darkgold { background: linear-gradient(135deg, #232526, #414345); border-left: 5px solid #f1c40f; }
-
-        .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; display: inline-block; }
+        .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 6px 8px; border-radius: 4px; font-size: 11px; display: inline-block; font-weight: bold; }
     </style>
 </head>
 <body id="bodyTag">
 
 <div class="container">
 
-    <!-- Header -->
     <div class="app-header">
         <div>
-            <h2 id="dispShopName">Capital Sofa Zone</h2>
-            <p id="dispShopPhone">📞 03000000000</p>
-            <p id="dispShopAddr">📍 Main Bazaar</p>
+            <h2 id="dispShopName">CAPITAL SOFA ZONE</h2>
+            <p id="dispShopPhone">📞 03457059667</p>
+            <p id="dispShopAddr">📍 Main Kuri Road Rawalpindi</p>
         </div>
         <div>
-            <button class="btn-top" onclick="cycleLanguage()" id="langBtn">Urdu</button>
-            <button class="btn-top" style="background:#e74c3c;" onclick="showHome()">Home</button>
+            <button class="btn-top" onclick="cycleLanguage()" id="langBtn">English</button>
+            <button class="btn-top" style="background:#2c3e50;" onclick="showHome()">Home</button>
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <div id="dashboardView">
-        <div class="section-title">KHATA (کھاتہ)</div>
+        <div class="section-title">KHATA & REPORTS (کھاتہ و رپورٹ)</div>
         <div class="grid-container">
             <div class="grid-card" onclick="openPage('partyPage')">
                 <span class="grid-icon">👤</span>
-                <span class="grid-label" id="lblGridParty">Party</span>
+                <span class="grid-label">Party</span>
             </div>
-            <div class="grid-card" onclick="openPage('cashPage')">
-                <span class="grid-icon">👛</span>
-                <span class="grid-label" id="lblGridCash">Cash</span>
+            <div class="grid-card" onclick="openPage('pnlPage')">
+                <span class="grid-icon">📊</span>
+                <span class="grid-label">Profit & Loss</span>
             </div>
             <div class="grid-card" onclick="openPage('stockPage')">
                 <span class="grid-icon">📦</span>
-                <span class="grid-label" id="lblGridStock">Stock</span>
+                <span class="grid-label">Stock</span>
             </div>
             <div class="grid-card" onclick="openPage('billsPage')">
                 <span class="grid-icon">📄</span>
-                <span class="grid-label" id="lblGridBills">Bills</span>
+                <span class="grid-label">Bills</span>
             </div>
-        </div>
-
-        <div class="section-title">MORE (دیگر اپشنز)</div>
-        <div class="grid-container">
-            <div class="grid-card" onclick="openPage('settingsPage')">
-                <span class="grid-icon">📲</span>
-                <span class="grid-label" id="lblGridMulti">Multi Devices</span>
-            </div>
-            <div class="grid-card" onclick="openPage('vcardPage')">
-                <span class="grid-icon">🪪</span>
-                <span class="grid-label" id="lblGridCard">Business Card</span>
+            <div class="grid-card" onclick="openPage('cashPage')">
+                <span class="grid-icon">👛</span>
+                <span class="grid-label">Cash</span>
             </div>
             <div class="grid-card" onclick="openPage('recyclePage')">
                 <span class="grid-icon">🗑️</span>
-                <span class="grid-label" id="lblGridRecycle">Recycle Bin</span>
+                <span class="grid-label">Recycle Bin</span>
             </div>
         </div>
     </div>
 
-    <!-- 1️⃣ PARTY PAGE -->
-    <div id="partyPage" class="page-content">
-        <h3 id="ttlParty">پارٹی مینجمنٹ</h3>
-        
-        <!-- Summary Card -->
-        <div class="balance-summary">
-            <div class="balance-box give">
-                <span style="font-size:11px; color:#555;">You Will Give (دینے ہیں)</span>
-                <div class="balance-val val-give" id="sumGive">Rs. 0</div>
+    <div id="pnlPage" class="page-content">
+        <h3>📊 پرافٹ اینڈ لاس رپورٹ (Profit & Loss)</h3>
+        <p style="font-size:12px; color:#666; margin-bottom:12px;">مجموعی کاروباری منافع اور نقصان کا حساب:</p>
+
+        <div class="pnl-grid">
+            <div class="pnl-box">
+                <div class="pnl-title">کل فروخت (Total Sale)</div>
+                <div class="pnl-value" style="color:#27ae60;" id="pnlSale">Rs. 0</div>
             </div>
-            <div class="balance-box">
-                <span style="font-size:11px; color:#555;">You Will Get (لینے ہیں)</span>
-                <div class="balance-val val-get" id="sumGet">Rs. 0</div>
+            <div class="pnl-box">
+                <div class="pnl-title">کل خریداری (Total Purchase)</div>
+                <div class="pnl-value" style="color:#e74c3c;" id="pnlPurchase">Rs. 0</div>
             </div>
         </div>
 
-        <!-- Sub Tabs -->
+        <div class="pnl-box" style="background:#eef9f1; border-color:#c3e6cb; margin-bottom:15px;">
+            <div class="pnl-title" style="font-weight:bold; font-size:13px; color:#155724;">خالص منافع / نقصان (Net Profit/Loss)</div>
+            <div class="pnl-value" style="font-size:22px;" id="pnlNet">Rs. 0</div>
+        </div>
+    </div>
+
+    <div id="stockPage" class="page-content">
+        <h3>📦 سٹاک رجسٹر (Stock Management)</h3>
+        <label>آئٹم کا نام:</label>
+        <input type="text" id="stkName" placeholder="پروڈکٹ کا نام">
+
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+                <label>تعداد (Quantity):</label>
+                <input type="number" id="stkQty" placeholder="0">
+            </div>
+            <div style="flex:1;">
+                <label>اکائی (Unit):</label>
+                <select id="stkUnit">
+                    <option value="Pcs">Pcs</option>
+                    <option value="Bundle">Bundle</option>
+                    <option value="Ghaz">Ghaz</option>
+                    <option value="Meter">Meter</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+                <label>خرید قیمت (Purchase Price):</label>
+                <input type="number" id="stkPurPrice" placeholder="0">
+            </div>
+            <div style="flex:1;">
+                <label>فروخت قیمت (Sale Price):</label>
+                <input type="number" id="stkSalePrice" placeholder="0">
+            </div>
+        </div>
+
+        <button class="btn-sec" onclick="addStock()">ایڈ/اپ ڈیٹ سٹاک</button>
+
+        <div style="overflow-x:auto; margin-top:15px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>آئٹم</th>
+                        <th>تعداد</th>
+                        <th>خرید قیمت</th>
+                        <th>سیل قیمت</th>
+                        <th>منافع/فی عدد</th>
+                    </tr>
+                </thead>
+                <tbody id="stockTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="partyPage" class="page-content">
+        <h3>پارٹی لین دین</h3>
         <div class="sub-tab-group">
             <div class="sub-tab-btn active" onclick="filterParty('Customer', this)">Customers</div>
             <div class="sub-tab-btn" onclick="filterParty('Supplier', this)">Suppliers</div>
-            <div class="sub-tab-btn" onclick="filterParty('All', this)">All</div>
         </div>
 
-        <!-- Add Transaction Form -->
         <label>پارٹی نام:</label>
         <input type="text" id="partyName" placeholder="نام درج کریں">
-        
+
         <div style="display:flex; gap:10px;">
             <div style="flex:1;">
-                <label>قسم:</label>
-                <select id="partyType">
-                    <option value="Customer">Customer</option>
-                    <option value="Supplier">Supplier</option>
-                </select>
-            </div>
-            <div style="flex:1;">
-                <label>لین دین:</label>
+                <label>لین دین قسم:</label>
                 <select id="txType">
                     <option value="Sale">Sale (فروخت)</option>
                     <option value="Purchase">Purchase (خریداری)</option>
                 </select>
             </div>
-        </div>
-
-        <div style="display:flex; gap:10px;">
-            <div style="flex:2;">
-                <label>سامان:</label>
-                <input type="text" id="itemName" placeholder="آئٹم">
-            </div>
             <div style="flex:1;">
-                <label>اکائی:</label>
-                <select id="itemUnit">
-                    <option value="Pcs">Pcs</option>
-                    <option value="Bundle">Bundle</option>
-                    <option value="Ghaz">Ghaz</option>
-                    <option value="Meter">Meter</option>
-                    <option value="Than">Than</option>
-                </select>
+                <label>رقم (Rs):</label>
+                <input type="number" id="txAmount" placeholder="0">
             </div>
         </div>
-
-        <label>رقم (Rs):</label>
-        <input type="number" id="txAmount" placeholder="0">
 
         <label>فون (WhatsApp):</label>
-        <input type="text" id="partyPhone" placeholder="03001234567">
+        <input type="text" id="partyPhone" placeholder="03457059667">
 
-        <button class="btn-main" onclick="addTx()">اینٹری سیو کریں</button>
+        <button class="btn-main" onclick="addTx()">اینٹری محفوظ کریں</button>
 
-        <!-- Records Table -->
         <div style="overflow-x:auto; margin-top:15px;">
             <table>
                 <thead>
                     <tr>
                         <th>نام</th>
                         <th>قسم</th>
-                        <th>آئٹم</th>
                         <th>رقم</th>
-                        <th>WhatsApp</th>
                         <th>ایکشن</th>
                     </tr>
                 </thead>
@@ -207,81 +214,22 @@
         </div>
     </div>
 
-    <!-- 2️⃣ CASH PAGE -->
     <div id="cashPage" class="page-content">
-        <h3>کیش کھاتہ (Cash Book)</h3>
-        <p>کیش ان اور کیش آؤٹ کی تمام ہسٹری یہاں شو ہوگی۔</p>
+        <h3>کیش بک</h3>
+        <p>تمام نقد لین دین یہاں ریکارڈ ہوں گے۔</p>
     </div>
 
-    <!-- 3️⃣ STOCK PAGE -->
-    <div id="stockPage" class="page-content">
-        <h3>سٹاک رجسٹر (Stock)</h3>
-        <label>آئٹم کا نام:</label>
-        <input type="text" id="stkName" placeholder="پروڈکٹ">
-        <label>تعداد:</label>
-        <input type="number" id="stkQty" placeholder="0">
-        <label>اکائی:</label>
-        <select id="stkUnit">
-            <option value="Pcs">Pcs</option>
-            <option value="Bundle">Bundle</option>
-            <option value="Ghaz">Ghaz</option>
-            <option value="Meter">Meter</option>
-        </select>
-        <button class="btn-sec" onclick="addStock()">سٹاک اپ ڈیٹ کریں</button>
-
-        <table style="margin-top:15px;">
-            <thead>
-                <tr>
-                    <th>آئٹم</th>
-                    <th>تعداد</th>
-                    <th>اکائی</th>
-                </tr>
-            </thead>
-            <tbody id="stockTable"></tbody>
-        </table>
-    </div>
-
-    <!-- 4️⃣ BILLS PAGE -->
     <div id="billsPage" class="page-content">
-        <h3>بلز ہسٹری (Bills)</h3>
-        <p>تمام جنریٹ کردہ ڈیجیٹل بلز یہاں دیکھیں۔</p>
+        <h3>بلز ہسٹری</h3>
+        <p>تمام رسیدیں دیکھیں۔</p>
     </div>
 
-    <!-- 5️⃣ BUSINESS CARD MAKER -->
-    <div id="vcardPage" class="page-content">
-        <h3>پروفیشنل بزنس کارڈ ڈیزائنر</h3>
-        <label>کارڈ تھیم کا انتخاب کریں:</label>
-        <select id="cardTheme" onchange="renderCard()">
-            <option value="theme-emerald">Elegant Emerald (سبز ڈگریڈینٹ)</option>
-            <option value="theme-navy">Modern Navy (نیوی بلیو)</option>
-            <option value="theme-darkgold">Luxury Dark (ڈارک گولڈ)</option>
-        </select>
-
-        <!-- Live Preview -->
-        <div id="vcardPreview" class="card-preview theme-emerald">
-            <div>
-                <h2 id="cardShop">Capital Sofa Zone</h2>
-                <p style="font-size:12px; opacity:0.9;">Wholesale Furniture & Tailoring</p>
-            </div>
-            <div>
-                <p id="cardAddr" style="font-size:12px;">📍 Main Bazaar</p>
-                <p id="cardPhone" style="font-size:13px; font-weight:bold;">📞 03000000000</p>
-            </div>
-        </div>
-
-        <button class="btn-sec" style="margin-top:15px;" onclick="window.print()">کارڈ پرنٹ کریں / PDF بنائیں</button>
-    </div>
-
-    <!-- 6️⃣ RECYCLE BIN -->
     <div id="recyclePage" class="page-content">
-        <h3>🗑️ ری سائیکل بن (Recycle Bin)</h3>
-        <p style="font-size:12px; color:#666;">ڈیلیٹ کیے گئے اینٹریز یہاں موجود ہیں۔ آپ انہیں بحال کر سکتے ہیں۔</p>
-
-        <table style="margin-top:15px;">
+        <h3>🗑️ ری سائیکل بن</h3>
+        <table>
             <thead>
                 <tr>
                     <th>نام</th>
-                    <th>آئٹم</th>
                     <th>رقم</th>
                     <th>ایکشن</th>
                 </tr>
@@ -290,34 +238,14 @@
         </table>
     </div>
 
-    <!-- 7️⃣ SETTINGS & MULTI DEVICE -->
-    <div id="settingsPage" class="page-content">
-        <h3>سیٹنگز و ملٹی ڈیوائس سنک</h3>
-        <label>دکان کا نام:</label>
-        <input type="text" id="setShopName">
-        <label>رابطہ نمبر:</label>
-        <input type="text" id="setShopPhone">
-        <label>ایڈریس:</label>
-        <input type="text" id="setShopAddr">
-        <label>گوگل شیٹ ویب ایپ URL (Auto Sync):</label>
-        <input type="text" id="setSheetUrl" placeholder="https://script.google.com/macros/s/.../exec">
-        <button class="btn-main" onclick="saveSettings()">سیٹنگز محفوظ کریں</button>
-    </div>
-
 </div>
 
 <script>
     let currentLang = 'ur';
     let currentFilter = 'Customer';
-    let txs = JSON.parse(localStorage.getItem('app_txs_v5')) || [];
-    let deletedTxs = JSON.parse(localStorage.getItem('app_recycle_v5')) || [];
-    let stock = JSON.parse(localStorage.getItem('app_stock_v5')) || [];
-    let settings = JSON.parse(localStorage.getItem('app_settings_v5')) || {
-        name: 'Capital Sofa Zone',
-        phone: '03000000000',
-        address: 'Main Bazaar',
-        sheetUrl: ''
-    };
+    let txs = JSON.parse(localStorage.getItem('app_txs_v7')) || [];
+    let stock = JSON.parse(localStorage.getItem('app_stock_v7')) || [];
+    let deletedTxs = JSON.parse(localStorage.getItem('app_recycle_v7')) || [];
 
     function showHome() {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
@@ -328,7 +256,7 @@
         document.getElementById('dashboardView').style.display = 'none';
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
-        if(pageId === 'vcardPage') renderCard();
+        if(pageId === 'pnlPage') calculatePnL();
     }
 
     function filterParty(type, btn) {
@@ -340,109 +268,43 @@
 
     function addTx() {
         let name = document.getElementById('partyName').value;
-        let partyType = document.getElementById('partyType').value;
         let txType = document.getElementById('txType').value;
-        let item = document.getElementById('itemName').value;
-        let unit = document.getElementById('itemUnit').value;
         let amount = document.getElementById('txAmount').value;
         let phone = document.getElementById('partyPhone').value;
 
         if(!name || !amount) { alert('نام اور رقم درج کریں!'); return; }
 
-        let itemData = { id: Date.now(), name, partyType, txType, item, unit, amount, phone };
-        txs.push(itemData);
-        localStorage.setItem('app_txs_v5', JSON.stringify(txs));
-
-        // Auto Sync with Google Sheet
-        if(settings.sheetUrl) {
-            fetch(settings.sheetUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(itemData)
-            });
-        }
+        txs.push({ id: Date.now(), name, partyType: currentFilter, txType, amount: Number(amount), phone });
+        localStorage.setItem('app_txs_v7', JSON.stringify(txs));
 
         document.getElementById('partyName').value = '';
         document.getElementById('txAmount').value = '';
         renderTx();
     }
 
-    function deleteTx(id) {
-        let idx = txs.findIndex(t => t.id === id);
-        if(idx > -1) {
-            deletedTxs.push(txs[idx]);
-            txs.splice(idx, 1);
-            localStorage.setItem('app_txs_v5', JSON.stringify(txs));
-            localStorage.setItem('app_recycle_v5', JSON.stringify(deletedTxs));
-            renderTx();
-            renderRecycle();
-        }
-    }
-
-    function restoreTx(id) {
-        let idx = deletedTxs.findIndex(t => t.id === id);
-        if(idx > -1) {
-            txs.push(deletedTxs[idx]);
-            deletedTxs.splice(idx, 1);
-            localStorage.setItem('app_txs_v5', JSON.stringify(txs));
-            localStorage.setItem('app_recycle_v5', JSON.stringify(deletedTxs));
-            renderTx();
-            renderRecycle();
-        }
-    }
-
-    function renderTx() {
-        let tbody = document.getElementById('partyTable');
-        tbody.innerHTML = '';
-        let giveSum = 0, getSum = 0;
-
-        txs.forEach(t => {
-            if(t.txType === 'Purchase') giveSum += Number(t.amount);
-            else getSum += Number(t.amount);
-
-            if(currentFilter === 'All' || t.partyType === currentFilter) {
-                let msg = `محترم ${t.name}!%0Aآپ کا ${t.item} کا بل Rs. ${t.amount} ہے۔%0Aشکریہ! *${settings.name}*`;
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${t.name}</td>
-                        <td>${t.partyType}</td>
-                        <td>${t.item} (${t.unit})</td>
-                        <td>Rs. ${t.amount}</td>
-                        <td><a href="https://wa.me/${t.phone}?text=${msg}" target="_blank" class="wa-btn">WhatsApp</a></td>
-                        <td><button onclick="deleteTx(${t.id})" style="background:#e74c3c; color:white; border:none; padding:4px 6px; border-radius:4px;">🗑️</button></td>
-                    </tr>
-                `;
-            }
-        });
-
-        document.getElementById('sumGive').innerText = 'Rs. ' + giveSum;
-        document.getElementById('sumGet').innerText = 'Rs. ' + getSum;
-    }
-
-    function renderRecycle() {
-        let tbody = document.getElementById('recycleTable');
-        tbody.innerHTML = '';
-        deletedTxs.forEach(t => {
-            tbody.innerHTML += `
-                <tr>
-                    <td>${t.name}</td>
-                    <td>${t.item}</td>
-                    <td>Rs. ${t.amount}</td>
-                    <td><button onclick="restoreTx(${t.id})" style="background:#27ae60; color:white; border:none; padding:4px 6px; border-radius:4px;">Restore</button></td>
-                </tr>
-            `;
-        });
-    }
-
     function addStock() {
         let name = document.getElementById('stkName').value;
         let qty = document.getElementById('stkQty').value;
         let unit = document.getElementById('stkUnit').value;
-        if(!name || !qty) return;
+        let purPrice = document.getElementById('stkPurPrice').value;
+        let salePrice = document.getElementById('stkSalePrice').value;
 
-        stock.push({ name, qty, unit });
-        localStorage.setItem('app_stock_v5', JSON.stringify(stock));
+        if(!name || !qty) { alert('آئٹم کا نام اور تعداد درج کریں!'); return; }
+
+        stock.push({
+            id: Date.now(),
+            name,
+            qty: Number(qty),
+            unit,
+            purPrice: Number(purPrice) || 0,
+            salePrice: Number(salePrice) || 0
+        });
+
+        localStorage.setItem('app_stock_v7', JSON.stringify(stock));
+        document.getElementById('stkName').value = '';
+        document.getElementById('stkQty').value = '';
+        document.getElementById('stkPurPrice').value = '';
+        document.getElementById('stkSalePrice').value = '';
         renderStock();
     }
 
@@ -450,38 +312,66 @@
         let tbody = document.getElementById('stockTable');
         tbody.innerHTML = '';
         stock.forEach(s => {
-            tbody.innerHTML += `<tr><td>${s.name}</td><td>${s.qty}</td><td>${s.unit}</td></tr>`;
+            let profit = s.salePrice - s.purPrice;
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${s.name}</strong></td>
+                    <td>${s.qty} ${s.unit}</td>
+                    <td>Rs. ${s.purPrice}</td>
+                    <td>Rs. ${s.salePrice}</td>
+                    <td style="color:${profit >= 0 ? '#27ae60' : '#e74c3c'}; font-weight:bold;">Rs. ${profit}</td>
+                </tr>
+            `;
         });
     }
 
-    function renderCard() {
-        let theme = document.getElementById('cardTheme').value;
-        let preview = document.getElementById('vcardPreview');
-        preview.className = 'card-preview ' + theme;
-        document.getElementById('cardShop').innerText = settings.name;
-        document.getElementById('cardPhone').innerText = '📞 ' + settings.phone;
-        document.getElementById('cardAddr').innerText = '📍 ' + settings.address;
+    function renderTx() {
+        let tbody = document.getElementById('partyTable');
+        tbody.innerHTML = '';
+
+        txs.forEach(t => {
+            if(t.partyType === currentFilter) {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${t.name}</td>
+                        <td>${t.txType}</td>
+                        <td>Rs. ${t.amount}</td>
+                        <td><button onclick="deleteTx(${t.id})" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">🗑️</button></td>
+                    </tr>
+                `;
+            }
+        });
     }
 
-    function saveSettings() {
-        settings.name = document.getElementById('setShopName').value;
-        settings.phone = document.getElementById('setShopPhone').value;
-        settings.address = document.getElementById('setShopAddr').value;
-        settings.sheetUrl = document.getElementById('setSheetUrl').value;
-        localStorage.setItem('app_settings_v5', JSON.stringify(settings));
-        loadSettings();
-        alert('سیٹنگز محفوظ ہو گئیں!');
+    function deleteTx(id) {
+        let idx = txs.findIndex(t => t.id === id);
+        if(idx > -1) {
+            deletedTxs.push(txs[idx]);
+            txs.splice(idx, 1);
+            localStorage.setItem('app_txs_v7', JSON.stringify(txs));
+            localStorage.setItem('app_recycle_v7', JSON.stringify(deletedTxs));
+            renderTx();
+        }
     }
 
-    function loadSettings() {
-        document.getElementById('dispShopName').innerText = settings.name;
-        document.getElementById('dispShopPhone').innerText = '📞 ' + settings.phone;
-        document.getElementById('dispShopAddr').innerText = '📍 ' + settings.address;
+    // Profit & Loss Calculation Logic
+    function calculatePnL() {
+        let totalSale = 0;
+        let totalPurchase = 0;
 
-        document.getElementById('setShopName').value = settings.name;
-        document.getElementById('setShopPhone').value = settings.phone;
-        document.getElementById('setShopAddr').value = settings.address;
-        document.getElementById('setSheetUrl').value = settings.sheetUrl || '';
+        txs.forEach(t => {
+            if(t.txType === 'Sale') totalSale += t.amount;
+            if(t.txType === 'Purchase') totalPurchase += t.amount;
+        });
+
+        let netProfit = totalSale - totalPurchase;
+
+        document.getElementById('pnlSale').innerText = 'Rs. ' + totalSale;
+        document.getElementById('pnlPurchase').innerText = 'Rs. ' + totalPurchase;
+        
+        let netElem = document.getElementById('pnlNet');
+        netElem.innerText = 'Rs. ' + netProfit;
+        netElem.style.color = netProfit >= 0 ? '#27ae60' : '#e74c3c';
     }
 
     function cycleLanguage() {
@@ -490,10 +380,8 @@
         document.getElementById('bodyTag').dir = currentLang === 'ur' ? 'rtl' : 'ltr';
     }
 
-    loadSettings();
     renderTx();
     renderStock();
-    renderRecycle();
 </script>
 
 </body>
