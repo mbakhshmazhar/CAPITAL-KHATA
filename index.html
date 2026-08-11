@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capital Khata Pro</title>
     
-    <link rel="manifest" href="manifest.json?v=5">
+    <link rel="manifest" href="manifest.json?v=6">
     <meta name="theme-color" content="#d32f2f">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/552/552788.png">
 
@@ -98,7 +98,7 @@
         .field-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.6; }
         .btn-card-action { flex: 1; padding: 10px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer; border: none; }
         .btn-dl { background: white; color: #d32f2f; border: 1.5px solid #d32f2f; }
-        .btn-wa { background: #e65100; color: white; }
+        .btn-wa { background: #25D366; color: white; }
         .btn-save { background: #27ae60; color: white; width: 100%; border-radius: 20px; font-weight: bold; margin-top: 6px; border: none; }
     </style>
 </head>
@@ -339,7 +339,7 @@
         <p style="font-size: 12px; font-weight: bold; margin-top: 10px; text-align: center;">Share your business card</p>
         <div style="display: flex; gap: 10px; margin-top: 8px;">
             <button class="btn-card-action btn-dl" onclick="downloadCardImage()">📥 DOWNLOAD</button>
-            <button class="btn-card-action btn-wa" onclick="shareCardWA()">💬 SHARE</button>
+            <button class="btn-card-action btn-wa" onclick="shareCardImageWithWA()">💬 SHARE CARD</button>
         </div>
     </div>
 
@@ -593,19 +593,13 @@
         }
     }
 
-    function shareCardWA() {
-        let msg = `*${document.getElementById('inBiz').value}*\n👤 ${document.getElementById('inOwner').value}\n📞 ${document.getElementById('inPhone').value}\n📍 ${document.getElementById('inAddr').value}`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    /* DIRECT CANVAS IMAGE DOWNLOAD FUNCTIONALITY */
-    function downloadCardImage() {
+    /* GENERATE CANVAS IMAGE FOR VCARD */
+    function generateCardCanvas() {
         let canvas = document.createElement('canvas');
         canvas.width = 1050;
         canvas.height = 600;
         let ctx = canvas.getContext('2d');
 
-        // Background
         if (currentSelectedTheme === 'gold') {
             let grad = ctx.createLinearGradient(0, 0, 1050, 600);
             grad.addColorStop(0, '#0f0c20');
@@ -643,7 +637,6 @@
             ctx.fillRect(1020, 0, 30, 600);
         }
 
-        // Texts Colors
         let titleColor = '#d4af37';
         let mainTextColor = '#ffffff';
         if (currentSelectedTheme === 'blue') titleColor = '#00d2ff';
@@ -651,7 +644,6 @@
         if (currentSelectedTheme === 'dark') { titleColor = '#ff7675'; mainTextColor = '#e0e0e0'; }
         if (currentSelectedTheme === 'red') { titleColor = '#f1c40f'; mainTextColor = '#ffffff'; }
 
-        // Business Title & Tagline
         ctx.fillStyle = titleColor;
         ctx.font = 'bold 42px sans-serif';
         ctx.fillText(document.getElementById('inBiz').value, 60, 100);
@@ -660,12 +652,10 @@
         ctx.font = '22px sans-serif';
         ctx.fillText(document.getElementById('inCat').value + ' ' + document.getElementById('inType').value, 60, 140);
 
-        // Owner Name
         ctx.fillStyle = mainTextColor;
         ctx.font = 'bold 34px sans-serif';
         ctx.fillText(document.getElementById('inOwner').value, 60, 280);
 
-        // Divider Line
         ctx.strokeStyle = 'rgba(255,255,255,0.2)';
         if(currentSelectedTheme === 'white') ctx.strokeStyle = '#ccc';
         ctx.lineWidth = 2;
@@ -674,16 +664,12 @@
         ctx.lineTo(990, 420);
         ctx.stroke();
 
-        // Contact Info
         ctx.fillStyle = mainTextColor;
         ctx.font = '24px sans-serif';
         ctx.fillText('📞 ' + document.getElementById('inPhone').value, 60, 480);
         ctx.fillText('✉️ ' + document.getElementById('inEmail').value, 60, 530);
-
-        // Address
         ctx.fillText('📍 ' + document.getElementById('inAddr').value, 500, 480);
 
-        // Draw Logo if uploaded
         if (uploadedLogoImg) {
             ctx.save();
             ctx.beginPath();
@@ -694,11 +680,42 @@
             ctx.restore();
         }
 
-        // Trigger Download
+        return canvas;
+    }
+
+    function downloadCardImage() {
+        let canvas = generateCardCanvas();
         let link = document.createElement('a');
         link.download = 'business-card.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
+    }
+
+    /* WHATSAPP IMAGE + TEXT SHARING FUNCTIONALITY */
+    async function shareCardImageWithWA() {
+        let canvas = generateCardCanvas();
+        let textMsg = `*${document.getElementById('inBiz').value}*\n👤 ${document.getElementById('inOwner').value}\n📞 ${document.getElementById('inPhone').value}\n📍 ${document.getElementById('inAddr').value}`;
+
+        canvas.toBlob(async (blob) => {
+            let file = new File([blob], 'business-card.png', { type: 'image/png' });
+
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: document.getElementById('inBiz').value,
+                        text: textMsg
+                    });
+                } catch (err) {
+                    console.log('Share canceled/failed');
+                }
+            } else {
+                // Fallback for older browsers
+                downloadCardImage();
+                window.open(`https://wa.me/?text=${encodeURIComponent(textMsg)}`, '_blank');
+                alert('آپ کا کارڈ ڈاؤن لوڈ ہو گیا ہے اور واٹس ایپ کھل رہا ہے۔ واٹس ایپ میں فائل منسلکہ (Attachment) سے ڈاؤن لوڈ شدہ امیج سلیکٹ کر لیں۔');
+            }
+        }, 'image/png');
     }
 
     renderParty();
