@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capital Khata Pro</title>
     
-    <link rel="manifest" href="manifest.json?v=2">
+    <link rel="manifest" href="manifest.json?v=3">
     <meta name="theme-color" content="#d32f2f">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/552/552788.png">
 
@@ -43,24 +43,63 @@
 
         .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 
-        /* Business Card Styles */
-        .card-preview-box { border-radius: 12px; padding: 16px; color: white; min-height: 180px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease; position: relative; }
-        .theme-gold { background: linear-gradient(135deg, #111111 0%, #3a3a3a 50%, #111111 100%); border: 2px solid #d4af37; }
-        .theme-gold h2 { color: #d4af37; }
-        .theme-blue { background: linear-gradient(135deg, #000428 0%, #004e92 100%); }
-        .theme-dark { background: linear-gradient(135deg, #232526 0%, #414345 100%); }
-        .theme-red { background: linear-gradient(135deg, #8e0e00 0%, #1f1c1c 100%); }
-        .card-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
-        .card-top-row h2 { font-size: 16px; margin-bottom: 2px; }
+        /* MULTIPLE CARD DESIGNS / THEMES */
+        .card-preview-box {
+            border-radius: 12px;
+            padding: 16px;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            direction: ltr; /* Card elements left-to-right alignment */
+            text-align: left;
+        }
+
+        /* 1. Gold Premium Theme */
+        .theme-gold { background: linear-gradient(135deg, #0f0c20 0%, #24243e 100%); color: #fff; border: 2px solid #d4af37; }
+        .theme-gold h2 { color: #d4af37; font-family: 'Georgia', serif; }
+        .theme-gold .card-logo-placeholder { border-color: #d4af37; color: #d4af37; }
+
+        /* 2. Modern Blue Curve Theme */
+        .theme-blue { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #ffffff; border-left: 8px solid #00d2ff; }
+        .theme-blue h2 { color: #00d2ff; }
+
+        /* 3. Minimal White Corporate Theme */
+        .theme-white { background: #ffffff; color: #2c3e50; border: 1px solid #e2e8f0; border-top: 6px solid #27ae60; }
+        .theme-white h2 { color: #16a085; }
+        .theme-white .card-logo-placeholder { border-color: #27ae60; color: #27ae60; }
+
+        /* 4. Elegant Dark Matte Theme */
+        .theme-dark { background: #121212; color: #e0e0e0; border-bottom: 5px solid #e74c3c; }
+        .theme-dark h2 { color: #ff7675; }
+
+        /* 5. Luxury Red Theme */
+        .theme-red { background: linear-gradient(135deg, #8e0e00 0%, #1f1c1c 100%); color: #fff; border-right: 6px solid #f39c12; }
+        .theme-red h2 { color: #f1c40f; }
+
+        /* Inner Structure */
+        .card-top-row { display: flex; justify-content: space-between; align-items: center; }
+        .card-top-row h2 { font-size: 16px; font-weight: bold; letter-spacing: 0.5px; }
         .card-top-row p { font-size: 10px; opacity: 0.85; }
-        .card-logo-placeholder { width: 45px; height: 45px; border-radius: 50%; border: 1px dashed rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; font-size: 9px; }
-        .card-middle-row h3 { font-size: 14px; margin: 10px 0 4px 0; letter-spacing: 0.5px; }
-        .card-bottom-row { display: flex; justify-content: space-between; font-size: 9px; opacity: 0.9; line-height: 1.3; }
-        .theme-selector { display: flex; justify-content: center; gap: 8px; margin: 12px 0; }
-        .dot { width: 14px; height: 14px; background: #d4af37; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 0 3px rgba(0,0,0,0.3); }
-        .dot.active { transform: scale(1.2); border-color: #2c3e50; }
+        .card-logo-placeholder { width: 46px; height: 46px; border-radius: 50%; border: 1.5px dashed rgba(255,255,255,0.6); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; overflow: hidden; }
+
+        .card-middle-row { margin: 10px 0; }
+        .card-middle-row h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.8px; }
+
+        .card-bottom-row { display: flex; justify-content: space-between; font-size: 9px; opacity: 0.9; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 8px; }
+        .theme-white .card-bottom-row { border-top-color: #eee; }
+
+        /* Theme Selector Buttons */
+        .theme-selector { display: flex; justify-content: center; gap: 10px; margin: 14px 0; }
+        .dot { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: 0.2s; }
+        .dot.active { transform: scale(1.25); border-color: #2c3e50; }
+
         .profile-upload-wrapper { text-align: center; margin-bottom: 12px; }
-        .profile-circle { width: 65px; height: 65px; background: #e0e0e0; border-radius: 50%; margin: auto; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+        .profile-circle { width: 60px; height: 60px; background: #e0e0e0; border-radius: 50%; margin: auto; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
         .input-icon-group { position: relative; margin-bottom: 8px; }
         .input-icon-group input { padding-right: 38px; border-radius: 20px; border: 1px solid #e0e0e0; background: #fafafa; font-size: 12px; }
         .field-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.6; }
@@ -89,7 +128,6 @@
         <button class="install-btn" onclick="installPWA()">Install App</button>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <div id="dashboardView">
         <div class="grid-container">
             <div class="grid-card" onclick="openPage('partyPage')">
@@ -119,7 +157,6 @@
         </div>
     </div>
 
-    <!-- 1️⃣ PARTY PAGE -->
     <div id="partyPage" class="page-content">
         <h3>👤 پارٹی لین دین کھاتہ</h3>
         <div style="display:flex; gap:6px;">
@@ -160,7 +197,6 @@
         </table>
     </div>
 
-    <!-- 2️⃣ BILL BOOK PAGE -->
     <div id="billsPage" class="page-content">
         <h3>📄 نیا بل بنائیں</h3>
         <label>کسٹمر کا نام:</label>
@@ -196,7 +232,6 @@
         <button class="btn-main" style="margin-top:10px;" onclick="saveBill()">💾 بل سیو کریں</button>
     </div>
 
-    <!-- 3️⃣ STOCK PAGE -->
     <div id="stockPage" class="page-content">
         <h3>📦 سٹاک مینجمنٹ</h3>
         <label>آئٹم کا نام:</label>
@@ -223,13 +258,11 @@
         </table>
     </div>
 
-    <!-- 4️⃣ PROFIT & LOSS PAGE -->
     <div id="pnlPage" class="page-content">
         <h3>📊 پرافٹ اینڈ لاس رپورٹ</h3>
         <p style="margin-top:10px;">سٹاک اور اینٹریز کی بنیاد پر اپ ڈیٹ شدہ منافع و نقصان یہاں دیکھیں۔</p>
     </div>
 
-    <!-- 5️⃣ VISITING CARD PAGE (DigiKhata Style) -->
     <div id="vcardPage" class="page-content">
         <h3 style="text-align: center; margin-bottom: 12px; color: #2c3e50;">🪪 Business Card</h3>
 
@@ -253,17 +286,18 @@
                     <p>📞 <span id="cardPhone">03457059667</span></p>
                     <p>✉️ <span id="cardEmail">mbakhshmazhar@gmail.com</span></p>
                 </div>
-                <div style="text-align: left;">
-                    <p>📍 <span id="cardAddress">Naseem Kiani Plaza NE-4316-A Main Kuri Road Shaheen Chowk Rawalpindi</span></p>
+                <div style="text-align: right; max-width: 50%;">
+                    <p>📍 <span id="cardAddress">Main Kuri Road Shaheen Chowk Rawalpindi</span></p>
                 </div>
             </div>
         </div>
 
         <div class="theme-selector">
-            <span class="dot active" onclick="changeTheme('theme-gold', this)"></span>
-            <span class="dot" style="background:#1e3c72;" onclick="changeTheme('theme-blue', this)"></span>
-            <span class="dot" style="background:#2c3e50;" onclick="changeTheme('theme-dark', this)"></span>
-            <span class="dot" style="background:#d32f2f;" onclick="changeTheme('theme-red', this)"></span>
+            <span class="dot active" style="background:#d4af37;" title="Gold Theme" onclick="changeTheme('theme-gold', this)"></span>
+            <span class="dot" style="background:#1e3c72;" title="Blue Theme" onclick="changeTheme('theme-blue', this)"></span>
+            <span class="dot" style="background:#ffffff; border-color:#27ae60;" title="White Minimal" onclick="changeTheme('theme-white', this)"></span>
+            <span class="dot" style="background:#121212; border-color:#e74c3c;" title="Matte Dark" onclick="changeTheme('theme-dark', this)"></span>
+            <span class="dot" style="background:#8e0e00;" title="Luxury Red" onclick="changeTheme('theme-red', this)"></span>
         </div>
 
         <div class="profile-upload-wrapper">
@@ -297,7 +331,7 @@
                 <span class="field-icon">💼</span>
             </div>
             <div class="input-icon-group">
-                <input type="text" id="inAddr" value="Naseem Kiani Plaza NE-4316-A Main Kuri Road Shaheen Chowk Rawalpindi" oninput="updateCard()">
+                <input type="text" id="inAddr" value="Main Kuri Road Shaheen Chowk Rawalpindi" oninput="updateCard()">
                 <span class="field-icon">📍</span>
             </div>
             <div class="input-icon-group">
@@ -306,14 +340,13 @@
             </div>
         </div>
 
-        <p style="font-size: 12px; font-weight: bold; margin-top: 10px;">Share your business card</p>
+        <p style="font-size: 12px; font-weight: bold; margin-top: 10px; text-align: center;">Share your business card</p>
         <div style="display: flex; gap: 10px; margin-top: 8px;">
             <button class="btn-card-action btn-dl" onclick="window.print()">📥 DOWNLOAD</button>
             <button class="btn-card-action btn-wa" onclick="shareCardWA()">💬 SHARE</button>
         </div>
     </div>
 
-    <!-- 6️⃣ RECYCLE BIN -->
     <div id="recyclePage" class="page-content">
         <h3>🗑️ ری سائیکل بن</h3>
         <table>
