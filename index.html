@@ -5,49 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAPITAL KHATA</title>
     <style>
-        /* بیک گراؤنڈ تصویر کے لیے کوڈ - نام ٹھیک کر دیا ہے */
         body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            /* یہ کوڈ اب صحیح نام 'bg-gold.jpg' ڈھونڈے گا */
             background-image: url('images/bg-gold.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: Arial, sans-serif;
         }
 
-        .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            max-width: 600px;
-            margin: auto;
+        .box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 500px;
         }
 
-        .address-box {
-            font-size: 18px;
+        h1 {
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .address {
+            direction: ltr; /* ایڈریس کے لیے انگریزی ترتیب */
+            text-align: left;
             font-weight: bold;
-            color: #333;
             margin-top: 20px;
             padding: 15px;
+            background: #f8f8f8;
+            border-radius: 10px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            line-height: 1.5;
-            direction: ltr; /* انگریزی ایڈریس کے لیے دائیں سے بائیں ترتیب */
-            text-align: left;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="box">
         <h1>CAPITAL KHATA</h1>
         
-        <!-- آپ کا نیا ایڈریس یہاں شامل کر دیا گیا ہے -->
-        <div class="address-box">
+        <div class="address">
             House No. 181/I Street No. 62 Near Waris Khan Metro Station Murree Road Rawalpindi
         </div>
     </div>
