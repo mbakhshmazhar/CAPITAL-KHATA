@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capital Khata Pro</title>
     
-    <link rel="manifest" href="manifest.json?v=6">
+    <link rel="manifest" href="manifest.json?v=7">
     <meta name="theme-color" content="#d32f2f">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/552/552788.png">
 
@@ -43,7 +43,7 @@
 
         .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 
-        /* VISITING CARD STYLING */
+        /* VISITING CARD STYLING & MULTI THEMES */
         .card-preview-box {
             border-radius: 12px;
             padding: 16px;
@@ -179,13 +179,7 @@
 
         <table>
             <thead>
-                <tr>
-                    <th>نام</th>
-                    <th>نوعیت</th>
-                    <th>رقم</th>
-                    <th>پیغام</th>
-                    <th>حذف</th>
-                </tr>
+                <tr><th>نام</th><th>نوعیت</th><th>رقم</th><th>پیغام</th><th>حذف</th></tr>
             </thead>
             <tbody id="partyTable"></tbody>
         </table>
@@ -356,7 +350,9 @@
 <script>
     let currentLang = 'ur';
     let currentSelectedTheme = 'gold';
+    let uploadedLogoBase64 = null;
     let uploadedLogoImg = null;
+
     let partyTxs = JSON.parse(localStorage.getItem('ck_party_v9')) || [];
     let stock = JSON.parse(localStorage.getItem('ck_stock_v9')) || [];
     let billItems = [];
@@ -522,7 +518,7 @@
         document.getElementById('bodyTag').dir = currentLang === 'ur' ? 'rtl' : 'ltr';
     }
 
-    /* --- Business Card Dynamic Update & Local Storage --- */
+    /* --- VCARD UPDATES & PERMANENT LOGO STORAGE --- */
     function updateCard() {
         let biz = document.getElementById('inBiz').value;
         let phone = document.getElementById('inPhone').value;
@@ -541,6 +537,28 @@
         document.getElementById('regPhoneShow').innerText = phone;
     }
 
+    function handleLogoUpload(event) {
+        let file = event.target.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedLogoBase64 = e.target.result;
+                setLogoDisplay(uploadedLogoBase64);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function setLogoDisplay(base64Image) {
+        document.getElementById('logoPreview').src = base64Image;
+        document.getElementById('logoPreview').style.display = 'block';
+        document.getElementById('uploadIcon').style.display = 'none';
+        document.getElementById('cardLogoDisplay').innerHTML = `<img src="${base64Image}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+        
+        uploadedLogoImg = new Image();
+        uploadedLogoImg.src = base64Image;
+    }
+
     function saveCardData() {
         let cardData = {
             biz: document.getElementById('inBiz').value,
@@ -549,10 +567,11 @@
             type: document.getElementById('inType').value,
             cat: document.getElementById('inCat').value,
             addr: document.getElementById('inAddr').value,
-            email: document.getElementById('inEmail').value
+            email: document.getElementById('inEmail').value,
+            logo: uploadedLogoBase64
         };
         localStorage.setItem('ck_vcard_data', JSON.stringify(cardData));
-        alert('ویزٹنگ کارڈ کا نیا ڈیٹا محفوظ کر لیا گیا ہے!');
+        alert('ویزٹنگ کارڈ کا ڈیٹا اور لوگو کامیابی سے محفوظ ہو گئے ہیں!');
     }
 
     function loadSavedCardData() {
@@ -565,6 +584,11 @@
             document.getElementById('inCat').value = saved.cat || '';
             document.getElementById('inAddr').value = saved.addr || '';
             document.getElementById('inEmail').value = saved.email || '';
+            
+            if(saved.logo) {
+                uploadedLogoBase64 = saved.logo;
+                setLogoDisplay(saved.logo);
+            }
             updateCard();
         }
     }
@@ -576,24 +600,7 @@
         el.classList.add('active');
     }
 
-    function handleLogoUpload(event) {
-        let file = event.target.files[0];
-        if (file) {
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('logoPreview').src = e.target.result;
-                document.getElementById('logoPreview').style.display = 'block';
-                document.getElementById('uploadIcon').style.display = 'none';
-                document.getElementById('cardLogoDisplay').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
-                
-                uploadedLogoImg = new Image();
-                uploadedLogoImg.src = e.target.result;
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    /* GENERATE CANVAS IMAGE FOR VCARD */
+    /* CANVAS GENERATION FOR VCARD DOWNLOADING & SHARING */
     function generateCardCanvas() {
         let canvas = document.createElement('canvas');
         canvas.width = 1050;
@@ -691,7 +698,6 @@
         link.click();
     }
 
-    /* WHATSAPP IMAGE + TEXT SHARING FUNCTIONALITY */
     async function shareCardImageWithWA() {
         let canvas = generateCardCanvas();
         let textMsg = `*${document.getElementById('inBiz').value}*\n👤 ${document.getElementById('inOwner').value}\n📞 ${document.getElementById('inPhone').value}\n📍 ${document.getElementById('inAddr').value}`;
@@ -710,7 +716,6 @@
                     console.log('Share canceled/failed');
                 }
             } else {
-                // Fallback for older browsers
                 downloadCardImage();
                 window.open(`https://wa.me/?text=${encodeURIComponent(textMsg)}`, '_blank');
                 alert('آپ کا کارڈ ڈاؤن لوڈ ہو گیا ہے اور واٹس ایپ کھل رہا ہے۔ واٹس ایپ میں فائل منسلکہ (Attachment) سے ڈاؤن لوڈ شدہ امیج سلیکٹ کر لیں۔');
