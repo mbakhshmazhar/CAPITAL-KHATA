@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capital Khata Pro</title>
     
-    <!-- PWA Manifest & Theme Link -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#d32f2f">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/552/552788.png">
@@ -13,51 +12,233 @@
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f4f6f9; padding: 12px; text-align: right; }
+        body.en { text-align: left; dir: ltr; }
         .container { max-width: 600px; margin: auto; }
 
-        .app-header { background: #d32f2f; color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center; }
-        .app-header h2 { font-size: 20px; }
+        /* App Bar */
+        .app-header { background: #d32f2f; color: white; padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .app-header h2 { font-size: 18px; margin-bottom: 2px; }
+        .app-header p { font-size: 11px; opacity: 0.9; }
 
-        .install-banner { display: none; background: #27ae60; color: white; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 15px; }
-        .install-btn { background: white; color: #27ae60; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .install-banner { display: none; background: #27ae60; color: white; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 12px; }
+        .install-btn { background: white; color: #27ae60; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 4px; }
 
-        .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); text-align: center; }
+        /* Navigation Grid */
+        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .grid-card { background: white; padding: 12px 8px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid #eef0f2; }
+        .grid-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+        .grid-label { font-size: 12px; font-weight: bold; color: #2c3e50; }
+
+        .btn-top { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; margin-left: 4px; }
+
+        /* Pages Section */
+        .page-content { display: none; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }
+        .page-content.active { display: block; }
+        
+        label { font-weight: bold; font-size: 12px; display: block; margin-top: 8px; color: #34495e; }
+        input, select, button { width: 100%; padding: 10px; margin: 4px 0 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+        button.btn-main { background-color: #d32f2f; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button.btn-sec { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+        th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+        th { background-color: #2c3e50; color: white; }
+
+        .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .card-box { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 15px; border-radius: 10px; margin-top: 10px; }
     </style>
 </head>
-<body>
+<body id="bodyTag">
 
 <div class="container">
 
-    <!-- Header -->
     <div class="app-header">
-        <h2>CAPITAL KHATA</h2>
-        <p>PWA Ready Application</p>
+        <div>
+            <h2>CAPITAL SOFA ZONE</h2>
+            <p>📞 03457059667 | 📍 مین کڑی روڈ راولپنڈی</p>
+        </div>
+        <div>
+            <button class="btn-top" onclick="cycleLang()" id="langBtn">English</button>
+            <button class="btn-top" style="background:#2c3e50;" onclick="showHome()">Home</button>
+        </div>
     </div>
 
-    <!-- PWA Installation Banner -->
     <div id="installBanner" class="install-banner">
-        <span>📲 اس ایپ کو موبائل یا پی سی پر انسٹال کریں!</span><br>
-        <button class="install-btn" onclick="installPWA()">انسٹال کریں (Install)</button>
+        <span>📲 اس ایپ کو فون یا کمپیوٹر پر انسٹال کریں!</span><br>
+        <button class="install-btn" onclick="installPWA()">Install App</button>
     </div>
 
-    <div class="box">
-        <h3>✅ PWA سیٹ اپ مکمل ہے!</h3>
-        <p style="margin-top: 10px; color: #555;">یہ اپلی کیشن اب آف لائن بھی کام کرے گی اور اسے ہوم اسکرین پر انسٹال کیا جا سکتا ہے۔</p>
+    <div id="dashboardView">
+        <div class="grid-container">
+            <div class="grid-card" onclick="openPage('partyPage')">
+                <span class="grid-icon">👤</span>
+                <span class="grid-label">پارٹی کھاتہ</span>
+            </div>
+            <div class="grid-card" onclick="openPage('billsPage')">
+                <span class="grid-icon">📄</span>
+                <span class="grid-label">بل بک</span>
+            </div>
+            <div class="grid-card" onclick="openPage('stockPage')">
+                <span class="grid-icon">📦</span>
+                <span class="grid-label">سٹاک مینجر</span>
+            </div>
+            <div class="grid-card" onclick="openPage('pnlPage')">
+                <span class="grid-icon">📊</span>
+                <span class="grid-label">پرافٹ اینڈ لاس</span>
+            </div>
+            <div class="grid-card" onclick="openPage('vcardPage')">
+                <span class="grid-icon">🪪</span>
+                <span class="grid-label">ویزٹنگ کارڈ</span>
+            </div>
+            <div class="grid-card" onclick="openPage('recyclePage')">
+                <span class="grid-icon">🗑️</span>
+                <span class="grid-label">ری سائیکل بن</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="partyPage" class="page-content">
+        <h3>👤 پارٹی لین دین کھاتہ</h3>
+        <div style="display:flex; gap:6px;">
+            <input type="text" id="partyName" placeholder="نام درج کریں">
+            <button onclick="pickContact()" style="width: auto; background: #27ae60; color: white; border: none; border-radius: 6px; padding: 0 10px;">📱 Phonebook</button>
+        </div>
+
+        <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+                <label>نوعیت:</label>
+                <select id="txType">
+                    <option value="Get">وصول کرنا ہے (Get)</option>
+                    <option value="Give">ادائیگی کرنی ہے (Give)</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label>رقم:</label>
+                <input type="number" id="partyAmt" placeholder="0">
+            </div>
+        </div>
+
+        <label>واٹس ایپ نمبر:</label>
+        <input type="text" id="partyPhone" placeholder="03457059667">
+
+        <button class="btn-main" onclick="addPartyTx()">محفوظ کریں</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>نام</th>
+                    <th>نوعیت</th>
+                    <th>رقم</th>
+                    <th>پیغام</th>
+                    <th>حذف</th>
+                </tr>
+            </thead>
+            <tbody id="partyTable"></tbody>
+        </table>
+    </div>
+
+    <div id="billsPage" class="page-content">
+        <h3>📄 نیا بل بنائیں</h3>
+        <label>کسٹمر کا نام:</label>
+        <input type="text" id="billCust" placeholder="کسٹمر نام">
+
+        <label>آئٹم نام:</label>
+        <input type="text" id="billItem" placeholder="کپڑا / فوم">
+
+        <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+                <label>تعداد:</label>
+                <input type="number" id="billQty" placeholder="1" value="1">
+            </div>
+            <div style="flex:1;">
+                <label>قیمت فی عدد:</label>
+                <input type="number" id="billRate" placeholder="0">
+            </div>
+        </div>
+
+        <button class="btn-sec" onclick="addBillItem()">+ آئٹم شامل کریں</button>
+
+        <table>
+            <thead>
+                <tr><th>آئٹم</th><th>تعداد</th><th>ریٹ</th><th>ٹوٹل</th></tr>
+            </thead>
+            <tbody id="billItemsTable"></tbody>
+        </table>
+
+        <div style="text-align:left; font-weight:bold; margin-top:8px;">
+            کل بل: <span id="billTotal" style="color:#d32f2f;">Rs. 0</span>
+        </div>
+
+        <button class="btn-main" style="margin-top:10px;" onclick="saveBill()">💾 بل سیو کریں</button>
+    </div>
+
+    <div id="stockPage" class="page-content">
+        <h3>📦 سٹاک مینجمنٹ</h3>
+        <label>آئٹم کا نام:</label>
+        <input type="text" id="stkName" placeholder="پروڈکٹ">
+        <label>تعداد:</label>
+        <input type="number" id="stkQty" placeholder="0">
+        <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+                <label>خرید قیمت:</label>
+                <input type="number" id="stkPur" placeholder="0">
+            </div>
+            <div style="flex:1;">
+                <label>فروخت قیمت:</label>
+                <input type="number" id="stkSale" placeholder="0">
+            </div>
+        </div>
+        <button class="btn-sec" onclick="addStock()">سٹاک ایڈ کریں</button>
+
+        <table>
+            <thead>
+                <tr><th>آئٹم</th><th>تعداد</th><th>خرید</th><th>سیل</th><th>منافع/عدد</th></tr>
+            </thead>
+            <tbody id="stockTable"></tbody>
+        </table>
+    </div>
+
+    <div id="pnlPage" class="page-content">
+        <h3>📊 پرافٹ اینڈ لاس رپورٹ</h3>
+        <p style="margin-top:10px;">سٹاک اور اینٹریز کی بنیاد پر اپ ڈیٹ شدہ منافع و نقصان یہاں دیکھیں۔</p>
+    </div>
+
+    <div id="vcardPage" class="page-content">
+        <h3>🪪 ویزٹنگ کارڈ میکر</h3>
+        <div class="card-box">
+            <h2>CAPITAL SOFA ZONE</h2>
+            <p>Wholesale Sewing Fabric & Foam</p>
+            <p style="margin-top:10px;"><strong>پروپرائیٹر:</strong> محمد بخش مظہر</p>
+            <p><strong>رابطہ:</strong> 03457059667</p>
+            <p><strong>پتہ:</strong> مین کڑی روڈ راولپنڈی</p>
+        </div>
+        <button class="btn-sec" style="margin-top:10px;" onclick="window.print()">🖨️ پرنٹ کریں</button>
+    </div>
+
+    <div id="recyclePage" class="page-content">
+        <h3>🗑️ ری سائیکل بن</h3>
+        <table>
+            <thead><tr><th>نام</th><th>رقم</th><th>ایکشن</th></tr></thead>
+            <tbody id="recycleTable"></tbody>
+        </table>
     </div>
 
 </div>
 
 <script>
-    // Register Service Worker for PWA
+    let currentLang = 'ur';
+    let partyTxs = JSON.parse(localStorage.getItem('ck_party_v9')) || [];
+    let stock = JSON.parse(localStorage.getItem('ck_stock_v9')) || [];
+    let billItems = [];
+    let recycleBin = JSON.parse(localStorage.getItem('ck_recycle_v9')) || [];
+
+    // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('Service Worker Registered!', reg))
-                .catch(err => console.log('Service Worker Failed!', err));
+            navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
         });
     }
 
-    // Handle PWA Install Prompt
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -68,14 +249,157 @@
     function installPWA() {
         if (deferredPrompt) {
             deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    document.getElementById('installBanner').style.display = 'none';
-                }
+            deferredPrompt.userChoice.then(() => {
+                document.getElementById('installBanner').style.display = 'none';
                 deferredPrompt = null;
             });
         }
     }
+
+    function showHome() {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById('dashboardView').style.display = 'block';
+    }
+
+    function openPage(pageId) {
+        document.getElementById('dashboardView').style.display = 'none';
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    // Phonebook Integration
+    async function pickContact() {
+        if ('contacts' in navigator && 'ContactsManager' in window) {
+            try {
+                const contacts = await navigator.contacts.select(['name', 'tel'], { multiple: false });
+                if (contacts.length) {
+                    document.getElementById('partyName').value = contacts[0].name[0] || '';
+                    document.getElementById('partyPhone').value = contacts[0].tel[0] || '';
+                }
+            } catch (err) {}
+        } else {
+            alert('فون بک ڈائریکٹ سلیکشن اس برائوزر میں سپورٹڈ نہیں ہے۔ نمبر خود درج کریں۔');
+        }
+    }
+
+    // Party Logic
+    function addPartyTx() {
+        let name = document.getElementById('partyName').value;
+        let type = document.getElementById('txType').value;
+        let amount = document.getElementById('partyAmt').value;
+        let phone = document.getElementById('partyPhone').value;
+
+        if(!name || !amount) { alert('نام اور رقم درج کریں'); return; }
+
+        partyTxs.push({ id: Date.now(), name, type, amount, phone });
+        localStorage.setItem('ck_party_v9', JSON.stringify(partyTxs));
+        document.getElementById('partyName').value = '';
+        document.getElementById('partyAmt').value = '';
+        renderParty();
+    }
+
+    function renderParty() {
+        let tbody = document.getElementById('partyTable');
+        tbody.innerHTML = '';
+        partyTxs.forEach(t => {
+            let msg = `Aapka CAPITAL SOFA ZONE ki taraf Rs.${t.amount} ka hisab hai. Shukriya!`;
+            tbody.innerHTML += `
+                <tr>
+                    <td>${t.name}</td>
+                    <td>${t.type === 'Get' ? 'وصول کرنا ہے' : 'دینا ہے'}</td>
+                    <td>Rs. ${t.amount}</td>
+                    <td><a href="https://wa.me/${t.phone}?text=${encodeURIComponent(msg)}" target="_blank" class="wa-btn">WhatsApp</a></td>
+                    <td><button onclick="delParty(${t.id})" style="background:#e74c3c; color:white; border:none; padding:2px 6px; border-radius:4px;">🗑️</button></td>
+                </tr>
+            `;
+        });
+    }
+
+    function delParty(id) {
+        let idx = partyTxs.findIndex(t => t.id === id);
+        if(idx > -1) {
+            recycleBin.push(partyTxs[idx]);
+            partyTxs.splice(idx, 1);
+            localStorage.setItem('ck_party_v9', JSON.stringify(partyTxs));
+            localStorage.setItem('ck_recycle_v9', JSON.stringify(recycleBin));
+            renderParty();
+            renderRecycle();
+        }
+    }
+
+    // Bill Logic
+    function addBillItem() {
+        let name = document.getElementById('billItem').value;
+        let qty = Number(document.getElementById('billQty').value);
+        let rate = Number(document.getElementById('billRate').value);
+
+        if(!name || !qty || !rate) return;
+
+        let total = qty * rate;
+        billItems.push({ name, qty, rate, total });
+        document.getElementById('billItem').value = '';
+        document.getElementById('billRate').value = '';
+        renderBill();
+    }
+
+    function renderBill() {
+        let tbody = document.getElementById('billItemsTable');
+        tbody.innerHTML = '';
+        let sum = 0;
+        billItems.forEach(b => {
+            sum += b.total;
+            tbody.innerHTML += `<tr><td>${b.name}</td><td>${b.qty}</td><td>Rs.${b.rate}</td><td>Rs.${b.total}</td></tr>`;
+        });
+        document.getElementById('billTotal').innerText = 'Rs. ' + sum;
+    }
+
+    function saveBill() {
+        if(!billItems.length) return;
+        alert('بل کامیابی سے محفوظ ہو گیا!');
+        billItems = [];
+        renderBill();
+    }
+
+    // Stock Logic
+    function addStock() {
+        let name = document.getElementById('stkName').value;
+        let qty = document.getElementById('stkQty').value;
+        let pur = Number(document.getElementById('stkPur').value) || 0;
+        let sale = Number(document.getElementById('stkSale').value) || 0;
+
+        if(!name || !qty) return;
+
+        stock.push({ name, qty, pur, sale });
+        localStorage.setItem('ck_stock_v9', JSON.stringify(stock));
+        renderStock();
+    }
+
+    function renderStock() {
+        let tbody = document.getElementById('stockTable');
+        tbody.innerHTML = '';
+        stock.forEach(s => {
+            let profit = s.sale - s.pur;
+            tbody.innerHTML += `<tr><td>${s.name}</td><td>${s.qty}</td><td>Rs.${s.pur}</td><td>Rs.${s.sale}</td><td style="color:${profit>=0?'#27ae60':'#e74c3c'}">Rs.${profit}</td></tr>`;
+        });
+    }
+
+    function renderRecycle() {
+        let tbody = document.getElementById('recycleTable');
+        tbody.innerHTML = '';
+        recycleBin.forEach(r => {
+            tbody.innerHTML += `<tr><td>${r.name}</td><td>Rs.${r.amount}</td><td>حذف شدہ</td></tr>`;
+        });
+    }
+
+    function cycleLang() {
+        currentLang = currentLang === 'ur' ? 'en' : 'ur';
+        document.getElementById('langBtn').innerText = currentLang === 'ur' ? 'English' : 'اردو';
+        document.getElementById('bodyTag').dir = currentLang === 'ur' ? 'rtl' : 'ltr';
+    }
+
+    renderParty();
+    renderStock();
+    renderRecycle();
 </script>
 
 </body>
