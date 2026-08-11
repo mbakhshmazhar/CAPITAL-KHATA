@@ -3,385 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capital Khata - Visiting Card & Bill Book</title>
+    <title>Capital Khata Pro</title>
+    
+    <!-- PWA Manifest & Theme Link -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d32f2f">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/552/552788.png">
+
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f4f6f9; padding: 12px; text-align: right; }
-        body.en { text-align: left; dir: ltr; }
-        .container { max-width: 650px; margin: auto; }
+        .container { max-width: 600px; margin: auto; }
 
-        /* App Header */
-        .app-header { background: #d32f2f; color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .app-header h2 { font-size: 18px; margin-bottom: 4px; }
-        .app-header p { font-size: 12px; opacity: 0.9; }
+        .app-header { background: #d32f2f; color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center; }
+        .app-header h2 { font-size: 20px; }
 
-        /* Grid UI */
-        .section-title { font-weight: bold; color: #7f8c8d; font-size: 13px; margin: 12px 4px 6px 4px; text-transform: uppercase; }
-        .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .grid-card { background: white; padding: 15px 10px; border-radius: 12px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid #eef0f2; transition: 0.2s; }
-        .grid-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .grid-icon { font-size: 26px; display: block; margin-bottom: 6px; }
-        .grid-label { font-size: 13px; font-weight: bold; color: #2c3e50; }
+        .install-banner { display: none; background: #27ae60; color: white; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 15px; }
+        .install-btn { background: white; color: #27ae60; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 5px; }
 
-        .btn-top { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
-
-        /* Pages & Content */
-        .page-content { display: none; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }
-        .page-content.active { display: block; }
-        
-        /* Form Styling */
-        label { font-weight: bold; font-size: 12px; display: block; margin-top: 8px; color: #34495e; }
-        input, select, button { width: 100%; padding: 10px; margin: 4px 0 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        button.btn-main { background-color: #d32f2f; color: white; border: none; font-weight: bold; cursor: pointer; }
-        button.btn-sec { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
-
-        /* Tables */
-        table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background-color: #2c3e50; color: white; }
-
-        /* Visiting Card Box */
-        .card-container { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 20px; border-radius: 12px; margin-top: 15px; min-height: 170px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .card-head h2 { font-size: 18px; color: #f1c40f; }
-        .card-head p { font-size: 12px; opacity: 0.9; }
-        .card-body { font-size: 13px; margin-top: 10px; }
-        .card-footer { font-size: 11px; text-align: left; opacity: 0.8; }
-
-        /* Invoice Box */
-        .invoice-box { border: 1px dashed #2c3e50; padding: 15px; border-radius: 8px; background: #fafafa; margin-top: 15px; }
+        .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); text-align: center; }
     </style>
 </head>
-<body id="bodyTag">
+<body>
 
 <div class="container">
 
+    <!-- Header -->
     <div class="app-header">
-        <div>
-            <h2 id="dispShopName">CAPITAL SOFA ZONE</h2>
-            <p id="dispShopPhone">📞 03457059667</p>
-            <p id="dispShopAddr">📍 Main Kuri Road Rawalpindi</p>
-        </div>
-        <div>
-            <button class="btn-top" onclick="cycleLanguage()" id="langBtn">English</button>
-            <button class="btn-top" style="background:#2c3e50;" onclick="showHome()">Home</button>
-        </div>
+        <h2>CAPITAL KHATA</h2>
+        <p>PWA Ready Application</p>
     </div>
 
-    <div id="dashboardView">
-        <div class="section-title">MAIN MENU (اہم آپشنز)</div>
-        <div class="grid-container">
-            <div class="grid-card" onclick="openPage('partyPage')">
-                <span class="grid-icon">👤</span>
-                <span class="grid-label">Party</span>
-            </div>
-            <div class="grid-card" onclick="openPage('billsPage')">
-                <span class="grid-icon">📄</span>
-                <span class="grid-label">Bill Book</span>
-            </div>
-            <div class="grid-card" onclick="openPage('vcardPage')">
-                <span class="grid-icon">🪪</span>
-                <span class="grid-label">Visiting Card</span>
-            </div>
-            <div class="grid-card" onclick="openPage('stockPage')">
-                <span class="grid-icon">📦</span>
-                <span class="grid-label">Stock</span>
-            </div>
-            <div class="grid-card" onclick="openPage('pnlPage')">
-                <span class="grid-icon">📊</span>
-                <span class="grid-label">Profit & Loss</span>
-            </div>
-            <div class="grid-card" onclick="openPage('recyclePage')">
-                <span class="grid-icon">🗑️</span>
-                <span class="grid-label">Recycle Bin</span>
-            </div>
-        </div>
+    <!-- PWA Installation Banner -->
+    <div id="installBanner" class="install-banner">
+        <span>📲 اس ایپ کو موبائل یا پی سی پر انسٹال کریں!</span><br>
+        <button class="install-btn" onclick="installPWA()">انسٹال کریں (Install)</button>
     </div>
 
-    <div id="billsPage" class="page-content">
-        <h3>📄 بل بک - نیا بل بنائیں</h3>
-        
-        <label>کسٹمر کا نام:</label>
-        <input type="text" id="billCustName" placeholder="کسٹمر کا نام">
-
-        <label>موبائل نمبر (WhatsApp):</label>
-        <input type="text" id="billCustPhone" placeholder="03457059667">
-
-        <div style="background: #eef2f3; padding: 10px; border-radius: 8px; margin-top: 10px;">
-            <h4 style="font-size: 13px; margin-bottom: 6px;">آئٹم شامل کریں:</h4>
-            
-            <label>آئٹم کا نام:</label>
-            <input type="text" id="billItemName" placeholder="مثلاً: صوفہ کپڑا / فوم">
-
-            <div style="display:flex; gap:8px;">
-                <div style="flex:1;">
-                    <label>تعداد (Qty):</label>
-                    <input type="number" id="billItemQty" placeholder="1" value="1">
-                </div>
-                <div style="flex:1;">
-                    <label>فی عدد قیمت (Rate):</label>
-                    <input type="number" id="billItemRate" placeholder="0">
-                </div>
-            </div>
-
-            <button class="btn-sec" onclick="addItemToBill()">+ بل میں آئٹم شامل کریں</button>
-        </div>
-
-        <div style="margin-top: 12px;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>آئٹم</th>
-                        <th>تعداد</th>
-                        <th>ریٹ</th>
-                        <th>کل رقم</th>
-                    </tr>
-                </thead>
-                <tbody id="billItemsTable"></tbody>
-            </table>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-weight:bold;">
-            <span>ٹوٹل بل:</span>
-            <span id="billTotalAmount" style="color:#d32f2f; font-size:18px;">Rs. 0</span>
-        </div>
-
-        <button class="btn-main" style="margin-top:12px;" onclick="saveAndPrintBill()">💾 بل محفوظ کریں اور پرنٹ کریں</button>
-
-        <h4 style="margin-top: 20px;">پچھلے جنریٹ شدہ بلز:</h4>
-        <table>
-            <thead>
-                <tr>
-                    <th>کسٹمر</th>
-                    <th>کل رقم</th>
-                    <th>تاریخ</th>
-                    <th>ایکشن</th>
-                </tr>
-            </thead>
-            <tbody id="savedBillsTable"></tbody>
-        </table>
-    </div>
-
-    <div id="vcardPage" class="page-content">
-        <h3>🪪 ویزٹنگ / بزنس کارڈ میکر</h3>
-        
-        <label>دکان / بزنس کا نام:</label>
-        <input type="text" id="vcShop" value="CAPITAL SOFA ZONE" oninput="updateCardPreview()">
-
-        <label>مالک کا نام:</label>
-        <input type="text" id="vcOwner" value="محمد بخش مظہر" oninput="updateCardPreview()">
-
-        <label>فون نمبر:</label>
-        <input type="text" id="vcPhone" value="03457059667" oninput="updateCardPreview()">
-
-        <label>ایڈریس:</label>
-        <input type="text" id="vcAddress" value="مین کڑی روڈ راولپنڈی" oninput="updateCardPreview()">
-
-        <label>کارڈ لائیو پروویو:</label>
-        <div class="card-container" id="cardPrintArea">
-            <div class="card-head">
-                <h2 id="cardShopText">CAPITAL SOFA ZONE</h2>
-                <p>Wholesale Sewing Fabric & Foam</p>
-            </div>
-            <div class="card-body">
-                <p id="cardOwnerText"><strong>پروپرائیٹر:</strong> محمد بخش مظہر</p>
-                <p id="cardPhoneText"><strong>رابطہ:</strong> 03457059667</p>
-                <p id="cardAddrText"><strong>پتہ:</strong> مین کڑی روڈ راولپنڈی</p>
-            </div>
-            <div class="card-footer">
-                Capital Khata Generated Card
-            </div>
-        </div>
-
-        <button class="btn-sec" style="margin-top: 15px;" onclick="window.print()">🖨️ ویزٹنگ کارڈ پرنٹ / Save کریں</button>
-    </div>
-
-    <div id="stockPage" class="page-content">
-        <h3>📦 سٹاک مینجمنٹ</h3>
-        <label>آئٹم کا نام:</label>
-        <input type="text" id="stkName" placeholder="پروڈکٹ">
-        <label>تعداد:</label>
-        <input type="number" id="stkQty" placeholder="0">
-        <label>خرید قیمت:</label>
-        <input type="number" id="stkPur" placeholder="0">
-        <label>فروخت قیمت:</label>
-        <input type="number" id="stkSale" placeholder="0">
-        <button class="btn-sec" onclick="addStock()">ایڈ سٹاک</button>
-
-        <table style="margin-top:10px;">
-            <thead>
-                <tr>
-                    <th>آئٹم</th>
-                    <th>تعداد</th>
-                    <th>خرید</th>
-                    <th>سیل</th>
-                </tr>
-            </thead>
-            <tbody id="stockTable"></tbody>
-        </table>
-    </div>
-
-    <div id="partyPage" class="page-content">
-        <h3>پارٹی کھاتہ</h3>
-        <p>کسٹمرز اور سپلائرز کے کھاتاجات کا مکمل ریکارڈ۔</p>
-    </div>
-
-    <div id="pnlPage" class="page-content">
-        <h3>📊 پرافٹ اینڈ لاس</h3>
-        <p>کاروبار کی نفع و نقصان کی رپورٹس۔</p>
-    </div>
-
-    <div id="recyclePage" class="page-content">
-        <h3>🗑️ ری سائیکل بن</h3>
-        <p>ڈیلیٹ شدہ تمام ریکارڈز یہاں سے بحال کریں۔</p>
+    <div class="box">
+        <h3>✅ PWA سیٹ اپ مکمل ہے!</h3>
+        <p style="margin-top: 10px; color: #555;">یہ اپلی کیشن اب آف لائن بھی کام کرے گی اور اسے ہوم اسکرین پر انسٹال کیا جا سکتا ہے۔</p>
     </div>
 
 </div>
 
 <script>
-    let currentLang = 'ur';
-    let currentBillItems = [];
-    let savedBills = JSON.parse(localStorage.getItem('app_saved_bills_v1')) || [];
-    let stock = JSON.parse(localStorage.getItem('app_stock_v8')) || [];
-
-    function showHome() {
-        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-        document.getElementById('dashboardView').style.display = 'block';
-    }
-
-    function openPage(pageId) {
-        document.getElementById('dashboardView').style.display = 'none';
-        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-    }
-
-    // Bill Book Functions
-    function addItemToBill() {
-        let name = document.getElementById('billItemName').value;
-        let qty = Number(document.getElementById('billItemQty').value);
-        let rate = Number(document.getElementById('billItemRate').value);
-
-        if(!name || !qty || !rate) { alert('آئٹم، تعداد اور ریٹ درج کریں!'); return; }
-
-        let total = qty * rate;
-        currentBillItems.push({ name, qty, rate, total });
-
-        document.getElementById('billItemName').value = '';
-        document.getElementById('billItemQty').value = '1';
-        document.getElementById('billItemRate').value = '';
-
-        renderCurrentBillItems();
-    }
-
-    function renderCurrentBillItems() {
-        let tbody = document.getElementById('billItemsTable');
-        tbody.innerHTML = '';
-        let grandTotal = 0;
-
-        currentBillItems.forEach((item, index) => {
-            grandTotal += item.total;
-            tbody.innerHTML += `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.qty}</td>
-                    <td>Rs. ${item.rate}</td>
-                    <td>Rs. ${item.total}</td>
-                </tr>
-            `;
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker Registered!', reg))
+                .catch(err => console.log('Service Worker Failed!', err));
         });
-
-        document.getElementById('billTotalAmount').innerText = 'Rs. ' + grandTotal;
     }
 
-    function saveAndPrintBill() {
-        let custName = document.getElementById('billCustName').value;
-        let custPhone = document.getElementById('billCustPhone').value;
+    // Handle PWA Install Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').style.display = 'block';
+    });
 
-        if(!custName || currentBillItems.length === 0) {
-            alert('کسٹمر کا نام اور کم از کم ایک آئٹم شامل کریں!');
-            return;
+    function installPWA() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    document.getElementById('installBanner').style.display = 'none';
+                }
+                deferredPrompt = null;
+            });
         }
-
-        let totalAmt = currentBillItems.reduce((acc, i) => acc + i.total, 0);
-
-        let billData = {
-            id: Date.now(),
-            custName,
-            custPhone,
-            items: currentBillItems,
-            totalAmt,
-            date: new Date().toLocaleDateString()
-        };
-
-        savedBills.push(billData);
-        localStorage.setItem('app_saved_bills_v1', JSON.stringify(savedBills));
-
-        alert('بل کامیابی سے جنریٹ اور سیو ہو گیا ہے!');
-        
-        // Clear Form
-        currentBillItems = [];
-        document.getElementById('billCustName').value = '';
-        document.getElementById('billCustPhone').value = '';
-        renderCurrentBillItems();
-        renderSavedBills();
     }
-
-    function renderSavedBills() {
-        let tbody = document.getElementById('savedBillsTable');
-        tbody.innerHTML = '';
-
-        savedBills.forEach(b => {
-            let msg = `محترم ${b.custName}! آپ کا CAPITAL SOFA ZONE کا ٹوٹل بل Rs.${b.totalAmt} جنریٹ ہو چکا ہے۔ شکریہ!`;
-            tbody.innerHTML += `
-                <tr>
-                    <td>${b.custName}</td>
-                    <td>Rs. ${b.totalAmt}</td>
-                    <td>${b.date}</td>
-                    <td>
-                        <a href="https://wa.me/${b.custPhone}?text=${encodeURIComponent(msg)}" target="_blank" style="background:#25D366; color:white; padding:4px 8px; border-radius:4px; text-decoration:none; font-size:11px;">WhatsApp</a>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    // Visiting Card Live Update
-    function updateCardPreview() {
-        document.getElementById('cardShopText').innerText = document.getElementById('vcShop').value || 'CAPITAL SOFA ZONE';
-        document.getElementById('cardOwnerText').innerHTML = '<strong>پروپرائیٹر:</strong> ' + (document.getElementById('vcOwner').value || 'محمد بخش مظہر');
-        document.getElementById('cardPhoneText').innerHTML = '<strong>رابطہ:</strong> ' + (document.getElementById('vcPhone').value || '03457059667');
-        document.getElementById('cardAddrText').innerHTML = '<strong>پتہ:</strong> ' + (document.getElementById('vcAddress').value || 'مین کڑی روڈ راولپنڈی');
-    }
-
-    // Stock Management
-    function addStock() {
-        let name = document.getElementById('stkName').value;
-        let qty = document.getElementById('stkQty').value;
-        let pur = document.getElementById('stkPur').value;
-        let sale = document.getElementById('stkSale').value;
-
-        if(!name || !qty) return;
-
-        stock.push({ name, qty, pur, sale });
-        localStorage.setItem('app_stock_v8', JSON.stringify(stock));
-        renderStock();
-    }
-
-    function renderStock() {
-        let tbody = document.getElementById('stockTable');
-        tbody.innerHTML = '';
-        stock.forEach(s => {
-            tbody.innerHTML += `<tr><td>${s.name}</td><td>${s.qty}</td><td>Rs.${s.pur}</td><td>Rs.${s.sale}</td></tr>`;
-        });
-    }
-
-    function cycleLanguage() {
-        currentLang = currentLang === 'ur' ? 'en' : 'ur';
-        document.getElementById('langBtn').innerText = currentLang === 'ur' ? 'English' : 'اردو';
-        document.getElementById('bodyTag').dir = currentLang === 'ur' ? 'rtl' : 'ltr';
-    }
-
-    renderSavedBills();
-    renderStock();
 </script>
 
 </body>
